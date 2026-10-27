@@ -11,7 +11,7 @@ An end-to-end synthetic data pipeline that generates 22 billion e-commerce order
 
 # 2. Table of Contents
 
-- [1. Project Overview](#1-ikea-sales--synthetic-uk-sales-data-platform)
+- [1. Project Overview](#1-ikea-synthetic-sales-data-pipeline)
 - [2. Table of Contents](#2-table-of-contents)
 - [3. Problem Statement](#3-problem-statement)
 - [4. Architecture](#4-architecture)
@@ -98,6 +98,8 @@ Core mechanisms enabling sub-10-minute generation of 22 billion rows without dat
 ├── web_app_invoicing/  # FastAPI + Code128 barcode UK VAT invoice app
 ├── .env_example        # Environment variable template
 ├── .gitignore          # Git exclusion rules
+├── .python-version     # Python version
+├── LICENSE             # Licence
 ├── Makefile            # Single-command pipeline interface
 ├── pyproject.toml      # Python dependencies and project settings
 └── uv.lock             # Pinned dependency lockfile
@@ -134,7 +136,6 @@ export LOCATION=europe-west2
 
 Place GCP service account JSON credentials in `secrets/`:
 - `secrets/terraform-sa-key.json`: Terraform credentials (`roles/resourcemanager.projectIamAdmin`, `roles/bigquery.admin`).
-- `secrets/gcp-sa-key.json`: Application credentials (`roles/bigquery.admin`).
 
 ## 7.4. Provision Infrastructure
 
