@@ -224,13 +224,13 @@ make heatmap
 ```
 Open [http://localhost:8001](http://localhost:8001) to explore UK sales aggregated by 10km grid cell over ONS boundaries.
 
-<br><br><br>
+<br>
 
 # 9. Known Issues
 
 - **VAT Edge Case Rounding**: VAT may appear as 19% or 21% on select low-priced items due to integer pence rounding on minor currency units.
 
-<br><br><br>
+<br><br>
 
 # 10. Data Sources
 
@@ -239,7 +239,7 @@ Open [http://localhost:8001](http://localhost:8001) to explore UK sales aggregat
 - **UK School Census**: Forename and surname frequency distributions.
 - **UK Street Names**: Public road and street directory.
 
-<br><br><br>
+<p></p><p></p>
 
 # 11. Licence
 
