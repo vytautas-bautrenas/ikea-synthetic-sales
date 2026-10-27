@@ -36,11 +36,11 @@ An end-to-end synthetic data pipeline that generates 22 billion e-commerce order
 
 # 3. Problem Statement
 
-- Need for large-scale, production-grade e-commerce sales data engineering projects.
+- There is a need for large-scale, production-grade e-commerce sales datasets for data engineering projects.
 - Public commercial sales datasets are virtually non-existent at scale.
-- Real retailer data cannot be published due to commercial confidentiality and GDPR; results cannot be reproduced publicly.
-- LLM generation at scale (10 billion+ rows) is prohibitively slow and costs tens of thousands of pounds in API tokens.
-- **Solution**: Generate a deterministic, mathematically rigorous synthetic dataset (22 billion detail rows, 6 billion orders, 70 million customers) in under 10 minutes for <£10 in cloud compute, with zero LLM API costs.
+- Real retailer data cannot be published due to commercial confidentiality and GDPR; results cannot be reproduced publicly even if a data engineer acquired access to a real company data.
+- LLM generation at scale (10 billion+ rows) is prohibitively slow and may cost tens of thousands of pounds in API tokens.
+- **Solution**: Generate a deterministic, scalable, mathematically rigorous synthetic dataset with 22 billion detail rows, 6 billion orders and 70 million customers, in less than 10 minutes, for less than £10 in cloud compute, with zero LLM API costs.
 
 <br>
 
