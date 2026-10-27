@@ -23,14 +23,14 @@ An end-to-end synthetic data pipeline that generates 22 billion e-commerce order
   - [7.3. Service Account Credentials](#73-service-account-credentials)
   - [7.4. Provision Infrastructure](#74-provision-infrastructure)
 - [8. Running Instructions](#8-running-instructions)
-  - [8.1. Automated Pipeline via Airflow (Recommended)](#81-automated-pipeline-via-airflow-recommended)
-  - [8.2. Manual Step-by-Step via Makefile](#82-manual-step-by-step-via-makefile)
-  - [8.3. Web Applications](#83-web-applications)
-    - [8.3.1. Invoicing Web App](#831-invoicing-web-app)
-    - [8.3.2. Geographic Sales Heatmap Web App](#832-geographic-sales-heatmap-web-app)
-- [9. Known Issues](#9-known-issues)
-- [10. Data Sources](#10-data-sources)
-- [11. Licence](#11-licence)
+  - [8.1. Option A: Automated Pipeline via Airflow](#81-option-a-automated-pipeline-via-airflow)
+  - [8.2. Option B: Manual Step-by-Step via Makefile](#82-option-b-manual-step-by-step-via-makefile)
+- [9. Viewing The Results Via Web Applications](#9-viewing-the-results-via-web-applications)
+  - [9.1. Invoicing Web App](#91-invoicing-web-app)
+  - [9.2. Geographic Sales Heatmap Web App](#92-geographic-sales-heatmap-web-app)
+- [10. Known Issues](#10-known-issues)
+- [11. Data Sources](#11-data-sources)
+- [12. Licence](#12-licence)
 
 <br>
 
