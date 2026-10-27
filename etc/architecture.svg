@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" width="100%" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1250" width="100%" role="img">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
@@ -19,145 +19,151 @@
   <rect x="12" y="86" width="1132" height="96" rx="12" fill="#f8fafc" stroke="#64748b" stroke-width="1.6" />
   <text x="26" y="140" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="700" fill="#64748b">External Sources</text>
 
-  <rect x="218" y="98" width="176" height="72" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.3"/>
-  <text x="306" y="128" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="700" fill="#1e293b">ONSPD</text>
-  <text x="306" y="153" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#475569">UK postcodes · 1.4 GB</text>
+  <rect x="204" y="98" width="210" height="72" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.3"/>
+  <text x="309" y="128" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="700" fill="#1e293b">ONSPD</text>
+  <text x="309" y="153" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#475569">UK postcodes · 1.4 GB</text>
 
-  <rect x="402" y="98" width="176" height="72" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.3"/>
-  <text x="490" y="128" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#1e293b">IKEA Product Catalog</text>
-  <text x="490" y="153" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#475569">Web scrape · 116 MB</text>
+  <rect x="422" y="98" width="172" height="72" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.3"/>
+  <text x="508" y="128" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#1e293b">IKEA Product Catalog</text>
+  <text x="508" y="153" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#475569">Web scrape · 116 MB</text>
 
-  <rect x="586" y="98" width="176" height="72" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.3"/>
-  <text x="674" y="128" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">UK Census Names</text>
-  <text x="674" y="153" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#475569">Forenames &amp; surnames</text>
+  <rect x="602" y="98" width="172" height="72" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.3"/>
+  <text x="688" y="128" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">UK Census Names</text>
+  <text x="688" y="153" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#475569">Forenames &amp; surnames</text>
 
-  <rect x="770" y="98" width="176" height="72" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.3"/>
-  <text x="858" y="128" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">UK Street Names</text>
-  <text x="858" y="153" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#475569">17 MB road-name list</text>
+  <rect x="782" y="98" width="172" height="72" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.3"/>
+  <text x="868" y="128" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">UK Street Names</text>
+  <text x="868" y="153" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#475569">17 MB road-name list</text>
 
-  <rect x="954" y="98" width="176" height="72" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.3"/>
-  <text x="1042" y="128" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#1e293b">UK Store Locations</text>
-  <text x="1042" y="153" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#475569">IKEA website</text>
+  <rect x="962" y="98" width="172" height="72" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.3"/>
+  <text x="1048" y="128" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#1e293b">UK Store Locations</text>
+  <text x="1048" y="153" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#475569">IKEA website</text>
 
   <!-- ==================== 2. PYTHON SOURCING ==================== -->
-  <rect x="12" y="204" width="1132" height="96" rx="12" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.6" />
-  <text x="26" y="244" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#0284c7">python/ — source_*.py</text>
-  <text x="26" y="268" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#0284c7">(make source-*)</text>
+  <rect x="12" y="204" width="1132" height="128" rx="12" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.6" />
+  <text x="26" y="262" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#0284c7">python/ — source_*.py</text>
+  <text x="26" y="286" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#0284c7">(make source-*)</text>
 
-  <rect x="218" y="216" width="176" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
-  <text x="306" y="246" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">source_onspd.py</text>
-  <text x="306" y="271" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#475569">+ postcode_areas.py</text>
+  <rect x="204" y="213" width="210" height="42" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
+  <text x="309" y="239" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">source_onspd.py</text>
 
-  <rect x="402" y="216" width="176" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
-  <text x="490" y="258" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">source_prod_cat.py</text>
+  <path d="M 309 255 L 309 275" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
 
-  <rect x="586" y="216" width="176" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
-  <text x="674" y="258" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">source_names.py</text>
+  <rect x="204" y="277" width="210" height="42" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
+  <text x="309" y="303" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#1e293b">source_postcode_areas.py</text>
 
-  <rect x="770" y="216" width="176" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
-  <text x="858" y="258" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">source_streets.py</text>
+  <rect x="422" y="232" width="172" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
+  <text x="508" y="274" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">source_prod_cat.py</text>
 
-  <rect x="954" y="216" width="176" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
-  <text x="1042" y="258" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">source_stores.py</text>
+  <rect x="602" y="232" width="172" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
+  <text x="688" y="274" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">source_names.py</text>
+
+  <rect x="782" y="232" width="172" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
+  <text x="868" y="274" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">source_streets.py</text>
+
+  <rect x="962" y="232" width="172" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
+  <text x="1048" y="274" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">source_stores.py</text>
 
   <!-- ==================== 3. PYTHON INGESTION ==================== -->
-  <rect x="12" y="322" width="1132" height="96" rx="12" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.6" />
-  <text x="26" y="362" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#0284c7">python/ — ingest_*.py</text>
-  <text x="26" y="386" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#0284c7">(make ingest-*)</text>
+  <rect x="12" y="354" width="1132" height="96" rx="12" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.6" />
+  <text x="26" y="394" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#0284c7">python/ — ingest_*.py</text>
+  <text x="26" y="418" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#0284c7">(make ingest-*)</text>
 
-  <rect x="218" y="334" width="176" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
-  <text x="306" y="376" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">ingest_onspd.py</text>
+  <rect x="204" y="366" width="210" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
+  <text x="309" y="408" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">ingest_onspd.py</text>
 
-  <rect x="402" y="334" width="176" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
-  <text x="490" y="376" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">ingest_prod_cat.py</text>
+  <rect x="422" y="366" width="172" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
+  <text x="508" y="408" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">ingest_prod_cat.py</text>
 
-  <rect x="586" y="334" width="176" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
-  <text x="674" y="376" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">ingest_names.py</text>
+  <rect x="602" y="366" width="172" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
+  <text x="688" y="408" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">ingest_names.py</text>
 
-  <rect x="770" y="334" width="176" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
-  <text x="858" y="376" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">ingest_streets.py</text>
+  <rect x="782" y="366" width="172" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
+  <text x="868" y="408" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">ingest_streets.py</text>
 
-  <rect x="954" y="334" width="176" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
-  <text x="1042" y="376" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">ingest_stores.py</text>
+  <rect x="962" y="366" width="172" height="72" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
+  <text x="1048" y="408" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#1e293b">ingest_stores.py</text>
 
   <!-- ==================== 4. BIGQUERY DATASETS ==================== -->
-  <rect x="12" y="458" width="1132" height="564" rx="12" fill="#fffbeb" stroke="#b45309" stroke-width="1.6" />
-  <text x="28" y="488" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="700" fill="#b45309">BigQuery (Google Cloud Platform) - provisioned by Terraform</text>
+  <rect x="12" y="488" width="1132" height="588" rx="12" fill="#fffbeb" stroke="#b45309" stroke-width="1.6" />
+  <text x="28" y="518" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="700" fill="#b45309">BigQuery (Google Cloud Platform) - provisioned by Terraform</text>
 
   <!-- 4.1. ingest.* -->
-  <rect x="28" y="504" width="1102" height="80" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.3"/>
-  <text x="605" y="534" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#1e293b">ingest.* — raw landing tables</text>
-  <text x="605" y="564" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">ONSPD (postcodes &amp; coordinates) · IKEA catalog · census names · street names · store locations · postcode areas</text>
+  <rect x="28" y="534" width="1102" height="96" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.3"/>
+  <text x="605" y="562" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#1e293b">ingest.* — raw landing tables</text>
+  <text x="605" y="589" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">ONSPD · onspd_postcode_areas · onspd_bua_names · onspd_lad_names · onspd_cty_names</text>
+  <text x="605" y="614" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">ikea_product_catalog · uk_census_forenames · uk_census_surnames · uk_street_names</text>
 
   <!-- 4.2. transform.* -->
-  <rect x="28" y="618" width="1102" height="104" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
-  <text x="605" y="648" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#1e293b">transform.* — synthetic data generators (dbt)</text>
-  <text x="605" y="676" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">dim_numbers (100M partitioned blocks) → int_order_sizes (1M CDF basket slots) → int_order_products</text>
-  <text x="605" y="702" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">int_customer_street_names · int_customer_forenames · int_customer_surnames · int_orders_order_rollup</text>
+  <rect x="28" y="662" width="1102" height="126" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
+  <text x="605" y="690" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#1e293b">transform.* — synthetic data generators (dbt)</text>
+  <text x="605" y="718" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">int_number_expansion (100M-row parallel driver) → int_order_sizes (6B orders · 1M CDF slots) → int_order_products</text>
+  <text x="605" y="744" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">int_customer_forenames · int_customer_surnames · int_customer_street_names (weighted UK name &amp; address CDFs)</text>
+  <text x="605" y="770" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">int_orders_base (order rollup) · int_orders_datetimes · int_orders_payments · int_orders_picking_delivery</text>
 
   <!-- 4.3. serve.* -->
-  <rect x="28" y="758" width="1102" height="128" rx="8" fill="#dcfce7" stroke="#15803d" stroke-width="1.3"/>
-  <text x="605" y="786" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#1e293b">serve.* — production analytical marts</text>
-  <text x="605" y="814" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#15803d">fact_orders (6,000,000,000 rows · £725B) · fact_order_lines (15,894,809,796 rows · 947 GB)</text>
-  <text x="605" y="841" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">dim_customers (70,000,000 UK profiles) · dim_products (IKEA catalogue) · dim_stores</text>
-  <text x="605" y="868" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">dim_postcodes (UK delivery boundary filter) · agg_sales_grid_10km (1,351 cells) · agg_sales_by_postcode_district</text>
+  <rect x="28" y="822" width="1102" height="126" rx="8" fill="#dcfce7" stroke="#15803d" stroke-width="1.3"/>
+  <text x="605" y="850" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#1e293b">serve.* — production analytical marts</text>
+  <text x="605" y="878" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#15803d">fact_orders (6,000,000,000 rows · £725B) · fact_order_lines (15,894,809,796 rows · 947 GB)</text>
+  <text x="605" y="904" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">dim_customers (70,000,000 UK profiles) · dim_products (IKEA catalogue) · dim_stores</text>
+  <text x="605" y="930" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">dim_postcodes (UK delivery boundary filter) · agg_sales_grid_10km (1,351 10km grid cells)</text>
 
   <!-- 4.4. audit.* -->
-  <rect x="295" y="922" width="620" height="84" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.3"/>
-  <text x="605" y="948" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="700" fill="#991b1b">audit.* — data integrity &amp; financial reconciliation (dbt)</text>
-  <text x="605" y="973" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#7f1d1d">inputs_vs_outputs_checks: 14 reconciliation tests</text>
-  <text x="605" y="995" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#7f1d1d">exact 6B orders · £725B total reconciliation · VAT rates · timelines</text>
+  <rect x="284" y="980" width="632" height="82" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.3"/>
+  <text x="605" y="1006" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="700" fill="#991b1b">audit.* — data integrity &amp; financial reconciliation (dbt)</text>
+  <text x="605" y="1030" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#7f1d1d">inputs_vs_outputs_checks: 14 reconciliation tests</text>
+  <text x="605" y="1051" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#7f1d1d">lines vs orders totals · 6B orders &amp; 70M customers · basket, payment &amp; timeline</text>
 
   <!-- Connectors inside BQ (all aligned on x=605) -->
-  <path d="M 605 584 L 605 616" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <path d="M 605 722 L 605 756" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <path d="M 605 886 L 605 920" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <text x="619" y="745" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">dbt run (make dbt-run)</text>
-  <text x="619" y="909" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">dbt test &amp; audit (make dbt-audit)</text>
+  <path d="M 605 630 L 605 660" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 605 788 L 605 820" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 605 948 L 605 978" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <text x="619" y="809" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">dbt run (make dbt-run)</text>
+  <text x="619" y="968" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">dbt test &amp; audit (make dbt-audit)</text>
 
   <!-- ==================== 5. FASTAPI APPS ==================== -->
-  <rect x="12" y="1054" width="1132" height="104" rx="12" fill="#fdf4ff" stroke="#a21caf" stroke-width="1.6" />
-  <text x="26" y="1088" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="700" fill="#a21caf">FastAPI Web</text>
-  <text x="26" y="1108" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="700" fill="#a21caf">Applications</text>
-  <text x="26" y="1130" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#a21caf">(Invoicing /</text>
-  <text x="26" y="1146" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#a21caf">Heatmap)</text>
+  <rect x="12" y="1106" width="1132" height="104" rx="12" fill="#fdf4ff" stroke="#a21caf" stroke-width="1.6" />
+  <text x="26" y="1140" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="700" fill="#a21caf">FastAPI Web</text>
+  <text x="26" y="1160" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="700" fill="#a21caf">Applications</text>
+  <text x="26" y="1182" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#a21caf">(Invoicing /</text>
+  <text x="26" y="1198" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#a21caf">Heatmap)</text>
 
-  <rect x="218" y="1068" width="448" height="76" rx="8" fill="#fae8ff" stroke="#a21caf" stroke-width="1.3"/>
-  <text x="442" y="1098" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#1e293b">web_app_invoicing — uvicorn :8000</text>
-  <text x="442" y="1126" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#475569">Order ID + Postcode → IKEA VAT invoice (Code 128)</text>
+  <rect x="218" y="1120" width="448" height="76" rx="8" fill="#fae8ff" stroke="#a21caf" stroke-width="1.3"/>
+  <text x="442" y="1150" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#1e293b">web_app_invoicing — uvicorn :8000</text>
+  <text x="442" y="1178" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#475569">Order ID + Postcode → IKEA VAT invoice (Code 128)</text>
 
-  <rect x="682" y="1068" width="448" height="76" rx="8" fill="#fae8ff" stroke="#a21caf" stroke-width="1.3"/>
-  <text x="906" y="1098" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#1e293b">web_app_heatmap — uvicorn :8001</text>
-  <text x="906" y="1126" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#475569">10km UK sales grid (Leaflet zoom + ONS GeoJSON)</text>
+  <rect x="682" y="1120" width="448" height="76" rx="8" fill="#fae8ff" stroke="#a21caf" stroke-width="1.3"/>
+  <text x="906" y="1150" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#1e293b">web_app_heatmap — uvicorn :8001</text>
+  <text x="906" y="1178" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#475569">10km UK sales grid (Leaflet zoom + ONS GeoJSON)</text>
 
   <!-- ==================== FLOW CONNECTORS (LEFT COLUMN) ==================== -->
   <!-- 1. External Sources -> Python Sourcing -->
-  <path d="M 306 170 L 306 214" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <path d="M 490 170 L 490 214" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <path d="M 674 170 L 674 214" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <path d="M 858 170 L 858 214" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <path d="M 1042 170 L 1042 214" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 309 170 L 309 211" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 508 170 L 508 230" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 688 170 L 688 230" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 868 170 L 868 230" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 1048 170 L 1048 230" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
 
   <!-- 2. Python Sourcing -> Python Ingestion -->
-  <path d="M 306 288 L 306 332" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <path d="M 490 288 L 490 332" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <path d="M 674 288 L 674 332" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <path d="M 858 288 L 858 332" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <path d="M 1042 288 L 1042 332" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 309 319 L 309 364" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 508 304 L 508 364" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 688 304 L 688 364" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 868 304 L 868 364" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 1048 304 L 1048 364" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
 
   <!-- 3. Python Ingestion -> BigQuery ingest.* (collector bus above BigQuery container, aligned on x=605) -->
-  <path d="M 306 406 L 306 438 L 1042 438 L 1042 406" fill="none" stroke="#94a3b8" stroke-width="1.5" />
-  <path d="M 490 406 L 490 438" fill="none" stroke="#94a3b8" stroke-width="1.5" />
-  <path d="M 674 406 L 674 438" fill="none" stroke="#94a3b8" stroke-width="1.5" />
-  <path d="M 858 406 L 858 438" fill="none" stroke="#94a3b8" stroke-width="1.5" />
-  <path d="M 605 438 L 605 502" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 309 438 L 309 468 L 1048 468 L 1048 438" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+  <path d="M 508 438 L 508 468" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+  <path d="M 688 438 L 688 468" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+  <path d="M 868 438 L 868 468" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+  <path d="M 605 468 L 605 532" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
 
   <!-- 4. Delivery connections: serve.* -> Web Apps -->
-  <path d="M 266 886 L 266 1066" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <text x="254" y="1044" text-anchor="end" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#64748b">direct BigQuery lookup</text>
+  <path d="M 264 948 L 264 1118" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <text x="252" y="1096" text-anchor="end" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#64748b">direct BigQuery lookup</text>
 
-  <path d="M 936 886 L 936 1066" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <text x="948" y="1044" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#64748b">BigQuery grid read (cached)</text>
+  <path d="M 936 948 L 936 1118" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+  <text x="948" y="1096" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#64748b">BigQuery grid read (cached)</text>
 
   <!-- ==================== RIGHT SIDEBAR ==================== -->
   <!-- 1. Terraform Box (First step in workflow) -->
@@ -171,42 +177,42 @@
   <text x="1407" y="288" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="13" font-weight="600" fill="#b45309">(teardown: make terra-destroy)</text>
 
   <!-- Terraform connector to BigQuery -->
-  <path d="M 1226 198 L 1164 198 L 1164 490 L 1146 490" fill="none" stroke="#b45309" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrow-amber)" />
+  <path d="M 1226 198 L 1164 198 L 1164 520 L 1146 520" fill="none" stroke="#b45309" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrow-amber)" />
   <text x="1185" y="168" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#b45309">provisions</text>
   <text x="1185" y="184" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#b45309">GCP infra</text>
 
   <!-- 2. Airflow Box (Automated Orchestration) -->
-  <rect x="1226" y="356" width="362" height="390" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.6"/>
-  <text x="1407" y="390" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="700" fill="#1e293b">airflow/ — Docker · Airflow 3.3.2</text>
-  <text x="1407" y="420" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#4f46e5">DAG ikea_sales_pipeline (automated)</text>
-  <text x="1407" y="456" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">1 · sourcing — 6 parallel source_*.py</text>
-  <text x="1407" y="486" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">2 · ingestion — 5 BigQuery ingest_*.py</text>
-  <text x="1407" y="516" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">3 · dbt run → dbt test → dbt audit</text>
-  <text x="1407" y="546" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">4 · web_apps_readiness (/health probes)</text>
-  <text x="1407" y="586" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#15803d">Retries: 3 with exponential backoff</text>
-  <text x="1407" y="628" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make airflow-up / airflow-down</text>
-  <text x="1407" y="658" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make airflow-trigger / airflow-logs</text>
+  <rect x="1226" y="366" width="362" height="390" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.6"/>
+  <text x="1407" y="400" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="700" fill="#1e293b">airflow/ — Docker · Airflow 3.3.2</text>
+  <text x="1407" y="430" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#4f46e5">DAG ikea_sales_pipeline (automated)</text>
+  <text x="1407" y="466" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">1 · sourcing — 6 parallel source_*.py</text>
+  <text x="1407" y="496" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">2 · ingestion — 5 BigQuery ingest_*.py</text>
+  <text x="1407" y="526" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">3 · dbt run → dbt test → dbt audit</text>
+  <text x="1407" y="556" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">4 · web_apps_readiness (/health probes)</text>
+  <text x="1407" y="596" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#15803d">Retries: 3 with exponential backoff</text>
+  <text x="1407" y="638" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make airflow-up / airflow-down</text>
+  <text x="1407" y="668" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make airflow-trigger / airflow-logs</text>
 
   <!-- Airflow Orchestration Spine -->
-  <path d="M 1226 550 L 1192 550" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="5 4" />
-  <path d="M 1192 252 L 1192 1106" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="5 4" />
-  <path d="M 1192 252 L 1146 252" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-indigo)" />
-  <path d="M 1192 370 L 1146 370" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-indigo)" />
-  <path d="M 1192 670 L 1146 670" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-indigo)" />
-  <path d="M 1192 1106 L 1146 1106" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-indigo)" />
-  <text x="1202" y="336" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#4f46e5">orchestrates DAG layers</text>
+  <path d="M 1226 560 L 1192 560" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="5 4" />
+  <path d="M 1192 268 L 1192 1158" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="5 4" />
+  <path d="M 1192 268 L 1146 268" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-indigo)" />
+  <path d="M 1192 402 L 1146 402" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-indigo)" />
+  <path d="M 1192 725 L 1146 725" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-indigo)" />
+  <path d="M 1192 1158 L 1146 1158" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-indigo)" />
+  <text x="1202" y="346" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#4f46e5">orchestrates DAG layers</text>
 
   <!-- 3. Makefile Box (Manual CLI Alternative) -->
-  <rect x="1226" y="790" width="362" height="330" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="1.6"/>
-  <text x="1407" y="824" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="700" fill="#1e293b">Makefile — Single-Command CLI</text>
-  <text x="1407" y="854" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">Manual CLI — runs any layer on demand</text>
-  <text x="1407" y="894" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make env · terra-apply · terra-destroy</text>
-  <text x="1407" y="928" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make source-* (×6) · ingest-* (×5)</text>
-  <text x="1407" y="962" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make dbt-run · dbt-test · dbt-audit</text>
-  <text x="1407" y="996" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make dbt-docs</text>
-  <text x="1407" y="1030" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make invoice · make heatmap</text>
-  <text x="1407" y="1064" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make airflow-up · airflow-trigger</text>
+  <rect x="1226" y="810" width="362" height="330" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="1.6"/>
+  <text x="1407" y="844" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="700" fill="#1e293b">Makefile — Single-Command CLI</text>
+  <text x="1407" y="874" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">Manual CLI — runs any layer on demand</text>
+  <text x="1407" y="914" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make env · terra-apply · terra-destroy</text>
+  <text x="1407" y="948" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make source-* (×6) · ingest-* (×5)</text>
+  <text x="1407" y="982" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make dbt-run · dbt-test · dbt-audit</text>
+  <text x="1407" y="1016" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make dbt-docs</text>
+  <text x="1407" y="1050" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make invoice · make heatmap</text>
+  <text x="1407" y="1084" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make airflow-up · airflow-trigger</text>
 
   <!-- Footer description -->
-  <text x="800" y="1186" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#64748b">Data flow: download (source_*.py) → local data/ files → upload (ingest_*.py) → BigQuery (ingest → transform → serve → audit) → FastAPI apps.</text>
+  <text x="800" y="1236" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#64748b">Data flow: download (source_*.py) → local data/ files → upload (ingest_*.py) → BigQuery (ingest → transform → serve → audit) → FastAPI apps.</text>
 </svg>

@@ -25,6 +25,7 @@ An end-to-end synthetic data pipeline that generates 22 billion e-commerce order
 - [8. Running Instructions](#8-running-instructions)
   - [8.1. Option A: Automated Pipeline via Airflow](#81-option-a-automated-pipeline-via-airflow)
   - [8.2. Option B: Manual Step-by-Step via Makefile](#82-option-b-manual-step-by-step-via-makefile)
+  - [8.3. Cleanup](#83-cleanup)
 - [9. Viewing The Results Via Web Applications](#9-viewing-the-results-via-web-applications)
   - [9.1. Invoicing Web App](#91-invoicing-web-app)
   - [9.2. Geographic Sales Heatmap Web App](#92-geographic-sales-heatmap-web-app)
@@ -62,7 +63,7 @@ Pipeline flow:
 
 Core mechanisms enabling sub-10-minute generation of 22 billion rows without data hallucinations:
 
-1. **Storage-Driven Slot Parallelism (`dim_numbers`)**:
+1. **Storage-Driven Slot Parallelism (`int_number_expansion`)**:
    BigQuery's in-memory `GENERATE_ARRAY()` runs on a single worker slot (`parallelInputs = 1`). Materializing 100M sequence numbers to storage partitions forces BigQuery to read via multi-slot storage blocks, immediately engaging 200+ parallel workers and generating 6 billion IDs in seconds.
 
 2. **Fault Resilience & Retry Architecture**:
@@ -77,7 +78,7 @@ Core mechanisms enabling sub-10-minute generation of 22 billion rows without dat
    Raw text parsing in BigQuery on multi-GB files (e.g. 1.4 GB ONSPD) takes 40–60s and suffers from loose type inference. Streaming raw CSVs locally through Polars (`scan_csv().sink_parquet()`) produces compressed columnar Parquet in ~3s. BigQuery loads Parquet directly, bypassing text parsing bottlenecks.
 
 5. **Decoupled Two-Stage Order Generation**:
-   Separates line-item aggregation from order header generation. `int_orders_order_rollup` scans the 15.9B-line fact table once. `fact_orders` generates customer, channel, and timeline attributes directly from `order_id` seeds. Downstream transformations skip the 1TB line-item scan entirely, reducing query scan bytes by 81% and runtime by 5–10×.
+   Separates line-item aggregation from order header generation. `int_orders_base` scans the 15.9B-line fact table once. `fact_orders` generates customer, channel, and timeline attributes directly from `order_id` seeds. Downstream transformations skip the 1TB line-item scan entirely, reducing query scan bytes by 81% and runtime by 5–10×.
 
 6. **Lossless Integer Minor-Units Currency**:
    All monetary amounts are stored as integer minor units (`INT64` pence). Eliminates IEEE 754 floating-point inaccuracies, rounding divergence between rollups, and overhead across all models.
@@ -169,7 +170,10 @@ Should any issues arise, the suggestion is to point your AI agent at the repo, a
    make airflow-logs
    ```
 
-4. Shut down Airflow:
+4. View pipeline progress in Airflow:
+   Open [http://localhost:8080/dags](http://localhost:8080/dags), login with username & password `admin`, and click on the latest run to see the progress.
+
+5. Shut down Airflow:
    ```bash
    make airflow-down
    ```
@@ -195,6 +199,20 @@ Should any issues arise, the suggestion is to point your AI agent at the repo, a
    ```bash
    make dbt-test
    make dbt-audit
+   ```
+
+## 8.3. Cleanup
+
+1. Destroy service account & BigQuery datasets:
+   ```bash
+   make terra-destroy
+   ```
+
+2. Delete project within GCP to ensure no further usage accrues.
+
+3. Delete local credentials to ensure no leaked credentials:
+   ```bash
+   rm secrets/terraform-sa-key.json
    ```
 
 <br>
