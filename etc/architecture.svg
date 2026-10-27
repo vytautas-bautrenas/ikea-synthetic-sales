@@ -6,7 +6,7 @@
   </defs>
 
   <!-- Title & Subtitle -->
-  <text x="780" y="30" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#0f172a">ikea-sales — End-to-End Synthetic UK Sales Data Platform</text>
+  <text x="780" y="30" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#0f172a">IKEA Synthetic Sales Data Pipeline</text>
   <text x="780" y="50" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" fill="#64748b">GCP (BigQuery) · Terraform for Infra · Airflow 3.3.2 for Orchestration · dbt for 22B-Row Modelling · FastAPI for Web Delivery</text>
 
   <!-- ==================== 1. EXTERNAL SOURCES ==================== -->
