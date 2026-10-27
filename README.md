@@ -77,8 +77,8 @@ Core mechanisms enabling sub-10-minute generation of 22 billion rows without dat
 4. **Streaming CSV-to-Parquet Pre-Processing**:
    Raw text parsing in BigQuery on multi-GB files (e.g. 1.4 GB ONSPD) takes 40–60s and suffers from loose type inference. Streaming raw CSVs locally through Polars (`scan_csv().sink_parquet()`) produces compressed columnar Parquet in ~3s. BigQuery loads Parquet directly, bypassing text parsing bottlenecks.
 
-5. **Decoupled Two-Stage Order Generation**:
-   Separates line-item aggregation from order header generation. `int_orders_base` scans the 15.9B-line fact table once. `fact_orders` generates customer, channel, and timeline attributes directly from `order_id` seeds. Downstream transformations skip the 1TB line-item scan entirely, reducing query scan bytes by 81% and runtime by 5–10×.
+5. **Single-Pass Order Generation & Zero-Join Aggregation (`fact_orders`)**:
+   Separates line-item aggregation from order header generation. `fact_orders` aggregates basket pricing in memory from `int_order_sizes` and derives customer, channel, timeline, and payment attributes in a single pass without multi-table shuffle joins. This eliminates 4 massive 6-billion-row distributed shuffle joins and saves over 360 million slot-milliseconds, completing 6 billion orders in under 5 minutes.
 
 6. **Lossless Integer Minor-Units Currency**:
    All monetary amounts are stored as integer minor units (`INT64` pence). Eliminates IEEE 754 floating-point inaccuracies, rounding divergence between rollups, and overhead across all models.
