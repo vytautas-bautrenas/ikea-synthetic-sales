@@ -7,7 +7,7 @@ An end-to-end synthetic data pipeline that generates 22 billion e-commerce order
   <img src="etc/uk-sales-invoice.png" width="48%" alt="UK Sales VAT Invoice Web App" />
 </p>
 
-<br><br><br>
+<br>
 
 # 2. Table of Contents
 
@@ -32,7 +32,7 @@ An end-to-end synthetic data pipeline that generates 22 billion e-commerce order
 - [10. Data Sources](#10-data-sources)
 - [11. Licence](#11-licence)
 
-<br><br><br>
+<p></p><p></p>
 
 # 3. Problem Statement
 
@@ -42,7 +42,7 @@ An end-to-end synthetic data pipeline that generates 22 billion e-commerce order
 - LLM generation at scale (10 billion+ rows) is prohibitively slow and costs tens of thousands of pounds in API tokens.
 - **Solution**: Generate a deterministic, mathematically rigorous synthetic dataset (22 billion detail rows, 6 billion orders, 70 million customers) in under 10 minutes for <£10 in cloud compute, with zero LLM API costs.
 
-<br><br><br>
+<p></p><p></p><p></p><p></p>
 
 # 4. Architecture
 
