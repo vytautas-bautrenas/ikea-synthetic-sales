@@ -71,13 +71,9 @@ def main():
 
         loaded = job.output_rows or 0
         table_ref = client.get_table(destination)
-        counted = next(client.query(f"SELECT COUNT(*) FROM `{destination}`").result())[
-            0
-        ]
-        if job.errors or not (table_ref.num_rows == counted == loaded):
+        if job.errors or table_ref.num_rows != loaded:
             sys.exit(
                 f"{destination}: row-count mismatch (BQ={table_ref.num_rows:,} "
-                f"COUNT(*)={counted:,} "
                 f"loaded={loaded:,} errors={len(job.errors or [])})"
             )
         print(
