@@ -146,7 +146,12 @@ make terra-apply
 
 # 8. Running Instructions
 
-## 8.1. Automated Pipeline via Airflow (Recommended)
+Option A is preferred as it is a way to run the whole end-to-end data pipeline.
+
+Should any issues arise, the suggestion is to point your AI agent at the repo, and ask it to troubleshoot the process.
+
+
+## 8.1. Option A: Automated Pipeline via Airflow
 
 1. Start Airflow services:
    ```bash
@@ -168,7 +173,7 @@ make terra-apply
    make airflow-down
    ```
 
-## 8.2. Manual Step-by-Step via Makefile
+## 8.2. Option B: Manual Step-by-Step via Makefile
 
 1. **Download External Seed Data**:
    ```bash
@@ -191,9 +196,11 @@ make terra-apply
    make dbt-audit
    ```
 
-## 8.3. Web Applications
+<br>
 
-### 8.3.1. Invoicing Web App
+# 9. Viewing The Results Via Web Applications
+
+## 9.1. Invoicing Web App
 
 ```bash
 make invoice
@@ -217,7 +224,7 @@ WHERE fo.order_id = 7777777
 ```
 *(replace `<project-id>` with your GCP project ID)*
 
-### 8.3.2. Geographic Sales Heatmap Web App
+## 9.2. Geographic Sales Heatmap Web App
 
 ```bash
 make heatmap
@@ -226,13 +233,13 @@ Open [http://localhost:8001](http://localhost:8001) to explore UK sales aggregat
 
 <br>
 
-# 9. Known Issues
+# 10. Known Issues
 
 - **VAT Edge Case Rounding**: VAT may appear as 19% or 21% on select low-priced items due to integer pence rounding on minor currency units.
 
 <br>
 
-# 10. Data Sources
+# 11. Data Sources
 
 - **ONS Postcode Directory (ONSPD)**: Office for National Statistics (Open Government Licence v3.0).
 - **IKEA UK Catalog**: Public catalog product metadata.
@@ -241,6 +248,6 @@ Open [http://localhost:8001](http://localhost:8001) to explore UK sales aggregat
 
 <br>
 
-# 11. Licence
+# 12. Licence
 
 Released to the public domain under [The Unlicense](http://unlicense.org/).
