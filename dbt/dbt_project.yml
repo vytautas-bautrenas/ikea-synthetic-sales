@@ -1,0 +1,156 @@
+name: ikea_sales
+version: '1.0.0'
+profile: ikea_sales
+model-paths: ["models"]
+models:
+  ikea_sales:
+    +materialized: table
+    transform:    
+      +schema: transform
+    serve:
+      +schema: serve
+    audit:
+      +schema: audit
+
+
+vars:
+
+  # --- Scale -----------------------------------------------------------------
+
+  n_orders: 6000000000     # How many orders to generate.
+
+
+  # --- Customers --------------------------------------------------------------
+  
+  n_customers: 70000000    # Close to UK population.
+
+  house_number_max: 200    # House numbers are 1..this. Duplicate addresses are
+                           # expected.
+
+  flat_share: 0.12         # Number of flats vs. houses in generated addresses.
+                           # Value of '0.12' means 12% of addresses have a flat
+                           # number.
+
+
+  # --- Basket Size Distribution ----------------------------------------------
+  # Explicit probabilities for baskets with 1-7 items, then a geometric
+  # tail out to max_size.
+
+  basket_size:
+    explicit:
+      1: 0.35
+      2: 0.25
+      3: 0.15
+      4: 0.10
+      5: 0.07
+      6: 0.04
+      7: 0.02
+    tail_decay: 0.25
+    max_size: 30
+
+
+  # --- Product Popularity ----------------------------------------------------
+  # weight = product_rating_count. Products with no rating get this instead,
+  # deliberately below the lowest rating count (1) so they form the long tail.
+
+  non_rated_product_weight: 0.5
+
+
+  # --- Orders ---------------------------------------------------------------
+
+  online_share: 0.31         # Share of orders that are ONLINE; the rest are
+                             # in-store (README assumption: 69% in-store).
+                             # https://www.statista.com/statistics/946210/
+                             # ikea-sales-share-by-sales-channel-worldwide/
+
+  order_history_seconds: 220903200
+                             # Rolling window for order_datetime, ending on the
+                             # run date. 7 years = 365.25 days x 24 h x 3600 s.
+
+  parcel_max_items: 5        # ONLINE orders of at most this many items ship as
+                             # a courier parcel; bigger baskets go by truck.
+
+
+  # --- Picking & Delivery  ---------------------------------------------------
+  # Picking + delivery fees, integer minor units, charged only on online orders
+  # (in-store pickup is free).
+
+  parcel_fee_100: 395
+  parcel_free_delivery_min_spend_100: 6000
+  truck_fee_100: 4000
+  truck_free_delivery_min_spend_100: 30000
+
+
+  # --- Dispatch & Delivery ---------------------------------------------------
+  # The dispatch and delivery times for online orders, in hours, at
+  # the three basket size breakpoints. The max values are used for any order
+  # larger than the largest breakpoint. Dispatch hours are counted from 
+  # the order_datetime; delivery hours are counted from the dispatch_datetime.
+
+  dispatch_order_size_1: 2
+  dispatch_order_size_2: 5
+  dispatch_order_size_3: 10
+
+  dispatch_hours_order_size_1: 4
+  dispatch_hours_order_size_2: 8
+  dispatch_hours_order_size_3: 12
+  dispatch_hours_order_size_max: 24
+
+  delivery_hours_order_size_1: 24
+  delivery_hours_order_size_2: 48
+  delivery_hours_order_size_3: 72
+  delivery_hours_order_size_max: 120
+
+
+  # Weights for the payment methods, by channel. Largely based on UK Finance
+  # Payment Markets Report at:
+  # https://www.ukfinance.org.uk/system/files/2025-10/Payment%20Markets%20Report%20Summary.pdf
+
+  payment_method_weights:  
+    store:
+      debit_card: 0.55
+      credit_card: 0.12
+      apple_pay: 0.08
+      google_pay: 0.05
+      ikea_home_card: 0.05
+      ikea_gift_card: 0.05
+      cash: 0.10
+
+    online:
+      debit_card: 0.55
+      credit_card: 0.12
+      apple_pay: 0.06
+      google_pay: 0.05
+      ikea_gift_card: 0.05
+      paypal: 0.11
+      prepaid_card: 0.03
+      trustly: 0.03
+
+
+  # Fault tolerance in standard deviations for dbt checks and tests. A value of 6 means
+  # that a false alarm would be triggered only once in 22,000,000 runs across 23 parameters,
+  # meaning the test failure indicates a process issue, not an odd run.
+  # This threshold is independent of the sample size for n_orders > 30 due to CLT,
+  # meaning the threshold works for just any n_orders value effectively.
+
+  fault_tolerance_sigma: 6
+
+
+  # --- Technical -------------------------------------------------------------
+
+  p_granularity: 1000000   # Probability granularity for:
+                           # - basket size choice table
+                           # - product choice table
+                           # - names & surnames tables.
+                           # Value 1m means 1-in-a-million
+                           # choices are included.
+
+  n_numbers: 100000000     # Technical variable to force BQ parallelize large
+                           # scale integer generation or order line generation.
+                           # Must cover ceil(n_orders / gen_chunk_size)
+                           # (6bn / 1000 = 6m rows needed — 100m gives headroom).
+                           # n_numbers = 100m works well for 6bn orders.
+
+  gen_chunk_size: 1000     # Technical variable to force BQ parallelize large
+                           # scale integer generation or order line generation.
+                           # gen_chunk_size = 1000 works well for 6bn orders.

@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block title %}Invoice {{ invoice_number }} — IKEA{% endblock %}
+
+{% block content %}
+<!-- Non-printable top action bar -->
+<div class="no-print bg-white border-b border-gray-200 sticky top-0 z-20 py-2.5 px-4 shadow-sm mb-6">
+    <div class="max-w-4xl mx-auto flex justify-between items-center">
+        <a href="/" class="text-sm font-semibold text-blue-700 hover:text-blue-900 flex items-center space-x-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            <span>Back to Search</span>
+        </a>
+        <button 
+            onclick="window.print()" 
+            class="bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold py-2 px-4 rounded shadow-sm transition flex items-center space-x-2 cursor-pointer"
+        >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+            </svg>
+            <span>Print / Save as PDF</span>
+        </button>
+    </div>
+</div>
+
+<!-- Main Printable A4 Invoice Container -->
+<div class="max-w-4xl mx-auto bg-white p-10 md:p-14 shadow-lg rounded-none border border-gray-200 a4-page">
+    
+    <!-- Top Header: Logo (left), Title (center), Page & Barcode (right) -->
+    <div class="flex justify-between items-start mb-10 pb-2">
+        <div class="w-1/3">
+            <svg width="112" height="45" viewBox="0 0 120 48" xmlns="http://www.w3.org/2000/svg">
+                <rect width="120" height="48" fill="#0058A3"/>
+                <ellipse cx="60" cy="24" rx="54" ry="21" fill="#FFDA1A"/>
+                <text x="60" y="32" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="26" fill="#0058A3" text-anchor="middle" letter-spacing="1">IKEA</text>
+            </svg>
+        </div>
+
+        <div class="w-1/3 text-center">
+            <h1 class="text-3xl font-bold text-black tracking-normal">Invoice</h1>
+        </div>
+
+        <div class="w-1/3 text-right">
+            <div class="text-[11px] text-gray-800 font-medium mb-1.5">Page 1 of 1</div>
+            <div class="inline-block">
+                {{ barcode_svg | safe }}
+            </div>
+        </div>
+    </div>
+
+    <!-- 2-Column Upper Grid: Left (Seller & Details), Right (Buyer & Delivery/Billing Address) -->
+    <div class="grid grid-cols-2 gap-x-12 gap-y-7 text-[11px] leading-relaxed text-black mb-8">
+        <!-- Top Left: Seller -->
+        <div>
+            <div class="font-bold text-black mb-1">Seller:</div>
+            <div>IKEA Limited</div>
+            <div>1 Bow Churchyard</div>
+            <div>EC4M 9DQ London</div>
+            <div>United Kingdom</div>
+            <div>VAT number: GB527773320</div>
+        </div>
+
+        <!-- Top Right: Buyer -->
+        <div>
+            <div class="font-bold text-black mb-1">Buyer:</div>
+            <div>{{ first_name }} {{ last_name }}</div>
+            <div>{{ address_line_1 }}</div>
+            <div>{{ postcode }} {{ city_town }}</div>
+            <div>{{ country }}</div>
+        </div>
+
+        <!-- Bottom Left: Invoice details -->
+        <div>
+            <div class="font-bold text-black mb-1">Invoice details:</div>
+            <table class="w-full text-[11px] border-collapse">
+                <tbody>
+                    <tr>
+                        <td class="w-44 py-0.5 text-black">Order date:</td>
+                        <td class="py-0.5 text-black">{{ order_date }}</td>
+                    </tr>
+                    <tr>
+                        <td class="py-0.5 text-black">Order number:</td>
+                        <td class="py-0.5 text-black">{{ order_id }}</td>
+                    </tr>
+                    <tr>
+                        <td class="py-0.5 text-black">Invoice date:</td>
+                        <td class="py-0.5 text-black">{{ order_date }}</td>
+                    </tr>
+                    <tr>
+                        <td class="py-0.5 text-black">Invoice number:</td>
+                        <td class="py-0.5 text-black">{{ invoice_number }}</td>
+                    </tr>
+                    <tr>
+                        <td class="py-0.5 text-black">Delivery / collection date:</td>
+                        <td class="py-0.5 text-black">{{ delivery_date }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bottom Right: Delivery address / Billing address -->
+        <div>
+            <div class="font-bold text-black mb-1">{{ address_section_title }}</div>
+            <div>{{ address_line_1 }}</div>
+            <div>{{ postcode }} {{ city_town }}</div>
+            <div>{{ country }}</div>
+        </div>
+    </div>
+
+    <!-- Product List Table -->
+    <div class="mb-6">
+        <table class="w-full text-[11px] border-collapse">
+            <thead>
+                <tr class="ikea-table-header text-black font-bold border-b border-gray-400">
+                    <th class="py-1.5 px-2 text-left font-bold w-24">Art. No.</th>
+                    <th class="py-1.5 px-2 text-left font-bold">Article name and description</th>
+                    <th class="py-1.5 px-2 text-center font-bold w-16">Quantity</th>
+                    <th class="py-1.5 px-2 text-right font-bold w-28 leading-tight">Original price<br>VAT included</th>
+                    <th class="py-1.5 px-2 text-center font-bold w-20">VAT rate</th>
+                    <th class="py-1.5 px-2 text-right font-bold w-28 leading-tight">Total price VAT<br>included</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 text-black">
+                {% for item in items %}
+                <tr>
+                    <td class="py-2.5 px-2 text-left align-top">{{ item.art_no }}</td>
+                    <td class="py-2.5 px-2 text-left align-top">{{ item.description }}</td>
+                    <td class="py-2.5 px-2 text-center align-top">{{ item.quantity }}</td>
+                    <td class="py-2.5 px-2 text-right align-top">{{ item.unit_price }}</td>
+                    <td class="py-2.5 px-2 text-center align-top">{{ item.vat_rate }}</td>
+                    <td class="py-2.5 px-2 text-right align-top font-medium">{{ item.total_price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- VAT Specification (Left) & Total Amount (Right) -->
+    <div class="flex justify-between items-start mb-8 text-[11px] pt-1">
+        <!-- VAT Specification Box -->
+        <div class="w-64">
+            <div class="font-bold text-black mb-1">VAT specification:</div>
+            <table class="w-full text-[11px] border-collapse">
+                <thead>
+                    <tr class="ikea-table-header text-black font-bold border-b border-gray-400">
+                        <th class="w-28 py-1.5 px-2 text-left font-bold text-black">VAT rate</th>
+                        <th class="py-1.5 px-2 text-right font-bold text-black">{{ vat_rate }}</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 text-black">
+                    <tr>
+                        <td class="w-28 py-1.5 px-2 text-black font-normal">Goods</td>
+                        <td class="py-1.5 px-2 text-right text-black font-normal">{{ goods_total }}</td>
+                    </tr>
+                    <tr>
+                        <td class="py-1.5 px-2 text-black font-bold">Total</td>
+                        <td class="py-1.5 px-2 text-right text-black font-bold">{{ total_amount }}</td>
+                    </tr>
+                    <tr>
+                        <td class="py-1.5 px-2 text-black font-bold">Net amount</td>
+                        <td class="py-1.5 px-2 text-right text-black font-bold">{{ net_amount }}</td>
+                    </tr>
+                    <tr>
+                        <td class="py-1.5 px-2 text-black font-bold">VAT amount</td>
+                        <td class="py-1.5 px-2 text-right text-black font-bold">{{ vat_amount }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Total Amount & Paid Badge -->
+        <div class="text-right pt-2">
+            <div class="flex items-center justify-end space-x-10">
+                <span class="font-bold text-black text-sm">Total amount:</span>
+                <span class="font-bold text-black text-sm">£ {{ total_amount }}</span>
+            </div>
+            <div class="font-bold text-black text-xs mt-1">Paid</div>
+        </div>
+    </div>
+
+    <!-- Payment details -->
+    <div class="border-t border-gray-300 pt-3 pb-8 text-[11px]">
+        <div class="flex justify-between items-center">
+            <div class="font-bold text-black w-48">Payment details:</div>
+            <div class="flex-grow flex items-center justify-between pl-8">
+                <div class="flex items-center space-x-12">
+                    <span class="text-black">Payment type</span>
+                    <span class="text-black">{{ payment_type_name }}</span>
+                </div>
+                <div class="font-bold text-black">£ {{ total_amount }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legal and Company Registration Footer -->
+    <div class="mt-16 pt-4 border-t border-gray-300 text-[10px] leading-relaxed text-gray-800 flex justify-between items-end">
+        <div class="max-w-2xl">
+            IKEA Limited is a company registered in England and Wales with its registered office at 1 Bow Churchyard, London, EC4M 9DQ. Our VAT
+            number is GB527773320 and our Company Number 01986283.
+        </div>
+        <div class="text-[9px] text-gray-500 whitespace-nowrap ml-4">
+            © Inter IKEA Systems B.V. {{ now_year }}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

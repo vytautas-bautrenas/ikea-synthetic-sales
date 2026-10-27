@@ -1,0 +1,43 @@
+# ---- secrets and credentials ------------------------------------------------
+# secrets/ holds live service-account keys (GCP + Terraform); .env points at them.
+secrets/
+.env
+
+# ---- data --------------------------------------------------------------------
+# Downloaded and generated data is never committed. Everything under data/ is
+# re-derivable: `make source-names` / `make source-streets` re-download it and
+# `make ingest-*` reloads BigQuery (see python/source_*.py for URLs + licences).
+data/
+outputs/
+
+# ---- python ------------------------------------------------------------------
+__pycache__/
+*.py[oc]
+.venv/
+.uv-cache/
+.ruff_cache/
+
+# ---- dbt ---------------------------------------------------------------------
+dbt/target/
+dbt/logs/
+dbt/.user.yml
+
+# ---- terraform ---------------------------------------------------------------
+# State embeds resource attributes, including the generated service-account key.
+terraform/.terraform/
+*.tfstate
+*.tfstate.*
+
+# ---- airflow -----------------------------------------------------------------
+airflow/logs/
+airflow/config/
+
+# ---- editors and OS ----------------------------------------------------------
+.idea/
+.DS_Store
+.antigravityignore
+
+# ---- tmp ---------------------------------------------------------------------
+README_TMP.md
+.aider*
+scratch/

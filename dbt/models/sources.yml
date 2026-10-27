@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: ingest
+    database: "{{ env_var('GCLOUD_PROJECT') }}"
+    schema: ingest
+    tables:
+      - name: ONSPD
+      - name: ikea_product_catalog
+      - name: uk_census_forenames
+      - name: uk_census_surnames
+      - name: uk_street_names
+      - name: onspd_cty_names
+      - name: onspd_lad_names
+      - name: onspd_bua_names
+      - name: onspd_postcode_areas
+
+  # Store dimension lives in the serve dataset (python/ingest_stores.py), not in
+  # ingest: it is reference data typed by hand, not a scraped source file.
+  - name: serve
+    database: "{{ env_var('GCLOUD_PROJECT') }}"
+    schema: serve
+    tables:
+      - name: dim_stores

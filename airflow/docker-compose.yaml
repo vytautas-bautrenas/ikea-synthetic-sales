@@ -1,0 +1,166 @@
+x-airflow-common:
+  &airflow-common
+  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:slim-3.3.2-python3.14}
+  build: .
+  env_file:
+    - ${ENV_FILE_PATH:-../.env}
+  environment:
+    &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg://airflow:airflow@postgres/airflow
+    AIRFLOW__CORE__FERNET_KEY: ${FERNET_KEY:-46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqnzq8=}
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
+    AIRFLOW__API_AUTH__JWT_SECRET: ${JWT_SECRET:-noHHMLezFMkx5iNjLt1s3WPmooYr3Xz728e0e84STE9z4-a88Vf4Y5OSpcQq5wOKDRWy1YzkFs_dLXr8tghjZg}
+
+    # Sourced from .env for Python scripts & BigQuery
+    GCLOUD_PROJECT: ${GCLOUD_PROJECT:-ikea-sales}
+    LOCATION: ${LOCATION:-europe-west2}
+    GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/secrets/gcp-sa-key.json
+
+    # dbt & uv runtime configuration
+    DBT_PROFILES_DIR: /opt/airflow/dbt
+    UV_SYSTEM_PYTHON: "1"
+    UV_CACHE_DIR: /tmp/.uv-cache
+
+  volumes:
+    # Airflow code & logs
+    - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
+    - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
+
+    # Project mounts
+    - ../python:/opt/airflow/python
+    - ../data:/opt/airflow/data
+    - ../dbt:/opt/airflow/dbt
+    - ../secrets/gcp-sa-key.json:/opt/airflow/secrets/gcp-sa-key.json:ro
+    - ../pyproject.toml:/opt/airflow/pyproject.toml:ro
+    - ../uv.lock:/opt/airflow/uv.lock:ro
+
+  user: "${AIRFLOW_UID:-50000}:0"
+  depends_on:
+    &airflow-common-depends-on
+    postgres:
+      condition: service_healthy
+
+services:
+  # 1. Metadata Database (Optimized for fast local development)
+  postgres:
+    image: postgres:16
+    command: postgres -c fsync=off -c synchronous_commit=off -c full_page_writes=off
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 1s
+      timeout: 2s
+      retries: 5
+      start_period: 1s
+    restart: always
+
+  # 2. Cold-Boot Initializer (Migrations + Admin User Creation)
+  airflow-init:
+    <<: *airflow-common
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        mkdir -p /opt/airflow/logs
+        chown -R "${AIRFLOW_UID:-50000}:0" /opt/airflow/logs
+        exec /entrypoint airflow version
+    environment:
+      <<: *airflow-common-env
+      _AIRFLOW_DB_MIGRATE: 'true'
+      _AIRFLOW_WWW_USER_CREATE: 'true'
+      _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
+      _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
+    user: "0:0"
+
+  # 3. Airflow Webserver / API
+  airflow-apiserver:
+    <<: *airflow-common
+    command: api-server
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+
+  # 4. Airflow Scheduler (LocalExecutor executes pipeline tasks directly)
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    restart: always
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+
+  # 5. DAG Processor (Continuous DAG parsing)
+  airflow-dag-processor:
+    <<: *airflow-common
+    command: dag-processor
+    restart: always
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+
+  # 6. Web App - Invoicing Portal (:8000)
+  web_app_invoicing:
+    image: ghcr.io/astral-sh/uv:python3.13-bookworm-slim
+    working_dir: /app
+    volumes:
+      - ../web_app_invoicing:/app
+      - ../secrets/gcp-sa-key.json:/secrets/gcp-sa-key.json:ro
+      - uv-cache:/root/.cache/uv
+      - /app/.venv
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/secrets/gcp-sa-key.json
+      - GCLOUD_PROJECT=${GCLOUD_PROJECT:-ikea-sales}
+      - LOCATION=${LOCATION:-europe-west2}
+    command: uv run uvicorn main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 5s
+    restart: always
+
+  # 7. Web App - Heatmap Portal (:8001)
+  web_app_heatmap:
+    image: ghcr.io/astral-sh/uv:python3.13-bookworm-slim
+    working_dir: /app
+    volumes:
+      - ../web_app_heatmap:/app
+      - ../secrets/gcp-sa-key.json:/secrets/gcp-sa-key.json:ro
+      - uv-cache:/root/.cache/uv
+      - /app/.venv
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/secrets/gcp-sa-key.json
+      - GCLOUD_PROJECT=${GCLOUD_PROJECT:-ikea-sales}
+      - LOCATION=${LOCATION:-europe-west2}
+    command: uv run uvicorn main:app --host 0.0.0.0 --port 8001
+    ports:
+      - "8001:8001"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 5s
+    restart: always
+
+volumes:
+  postgres-db-volume:
+  uv-cache:

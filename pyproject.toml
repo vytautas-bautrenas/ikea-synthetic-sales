@@ -1,0 +1,44 @@
+[project]
+name = "ikea-sales"
+version = "1.0.0"
+description = "Ikea sales synthetic data pipeline"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "dbt-bigquery>=1.12.0",
+    "fastapi>=0.143.0",
+    "google-cloud-bigquery>=3.44.0",
+    "jinja2>=3.1.6",
+    "polars>=1.44.1",
+    "python-barcode>=0.16.1",
+    "uvicorn>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.8",
+    "sqlfluff>=4.3.0",
+    "sqlfluff-templater-dbt>=4.3.0",
+]
+
+[tool.sqlfluff.core]
+dialect = "bigquery"
+templater = "dbt"
+max_line_length = 88
+
+[tool.sqlfluff.rules.capitalisation.keywords]
+capitalisation_policy = "upper"
+
+[tool.sqlfluff.rules.capitalisation.functions]
+extended_capitalisation_policy = "upper"
+
+[tool.sqlfluff.rules.capitalisation.types]
+extended_capitalisation_policy = "upper"
+
+[tool.sqlfluff.rules.structure.column_order]
+prefer_aggregates_first = false
+prefer_common_types_first = false
+select_clause_order = ["wildcard", "simple", "expression", "cast", "aggregate"]
+
+[tool.sqlfluff.rules.structure.join_condition_order]
+preferred_first_table_in_join_clause = "earlier"

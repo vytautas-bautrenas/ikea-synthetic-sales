@@ -1,0 +1,16 @@
+ikea_sales:
+  target: prod
+  outputs:
+    prod:
+      type: bigquery
+      method: service-account
+      project: "{{ env_var('GCLOUD_PROJECT') }}"
+      dataset: transform
+      location: "{{ env_var ('LOCATION')}}"
+      keyfile: ../secrets/gcp-sa-key.json
+      threads: 8
+      # Below alternations were suggested by MiMO v2.6 to solve the connection issues.
+      job_retries: 3
+      job_creation_timeout_seconds: 120
+      job_execution_timeout_seconds: 1800
+      job_retry_deadline_seconds: 1800
