@@ -7,7 +7,7 @@ An end-to-end synthetic data pipeline that generates 22 billion e-commerce order
   <img src="etc/uk-sales-invoice.png" width="48%" alt="UK Sales VAT Invoice Web App" />
 </p>
 
----
+<br><br><br>
 
 # 2. Table of Contents
 
@@ -32,7 +32,7 @@ An end-to-end synthetic data pipeline that generates 22 billion e-commerce order
 - [10. Data Sources](#10-data-sources)
 - [11. Licence](#11-licence)
 
----
+<br><br><br>
 
 # 3. Problem Statement
 
@@ -42,7 +42,7 @@ An end-to-end synthetic data pipeline that generates 22 billion e-commerce order
 - LLM generation at scale (10 billion+ rows) is prohibitively slow and costs tens of thousands of pounds in API tokens.
 - **Solution**: Generate a deterministic, mathematically rigorous synthetic dataset (22 billion detail rows, 6 billion orders, 70 million customers) in under 10 minutes for <£10 in cloud compute, with zero LLM API costs.
 
----
+<br><br><br>
 
 # 4. Architecture
 
@@ -56,7 +56,7 @@ Pipeline flow:
 5. **Serve**: Deliver data to downstream FastAPI web applications (`web_app_invoicing/` and `web_app_heatmap/`).
 6. **Orchestrate**: Airflow orchestrates the DAG with automated task-level retries.
 
----
+<br><br><br>
 
 # 5. Architectural Solutions
 
@@ -82,7 +82,7 @@ Core mechanisms enabling sub-10-minute generation of 22 billion rows without dat
 6. **Lossless Integer Minor-Units Currency**:
    All monetary amounts are stored as integer minor units (`INT64` pence). Eliminates IEEE 754 floating-point inaccuracies, rounding divergence between rollups, and overhead across all models.
 
----
+<br><br><br>
 
 # 6. Repo Structure
 
@@ -103,7 +103,7 @@ Core mechanisms enabling sub-10-minute generation of 22 billion rows without dat
 └── uv.lock             # Pinned dependency lockfile
 ```
 
----
+<br><br><br>
 
 # 7. Setup
 
@@ -142,7 +142,7 @@ Place GCP service account JSON credentials in `secrets/`:
 make terra-apply
 ```
 
----
+<br><br><br>
 
 # 8. Running Instructions
 
@@ -224,13 +224,13 @@ make heatmap
 ```
 Open [http://localhost:8001](http://localhost:8001) to explore UK sales aggregated by 10km grid cell over ONS boundaries.
 
----
+<br><br><br>
 
 # 9. Known Issues
 
 - **VAT Edge Case Rounding**: VAT may appear as 19% or 21% on select low-priced items due to integer pence rounding on minor currency units.
 
----
+<br><br><br>
 
 # 10. Data Sources
 
@@ -239,7 +239,7 @@ Open [http://localhost:8001](http://localhost:8001) to explore UK sales aggregat
 - **UK School Census**: Forename and surname frequency distributions.
 - **UK Street Names**: Public road and street directory.
 
----
+<br><br><br>
 
 # 11. Licence
 
