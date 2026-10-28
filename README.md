@@ -95,17 +95,17 @@ Below are the results of a cold-start Airflow DAG run at 2026-10-27 22:26:53.
 | **Audit** | **22s** | **£3.59** | 763.6 GB | Reconciles financials, counts & 31 statistical distributions across all 22B rows |
 | **Total** | **6m 06s** | **£5.07** | **1.08 TB** | **Full cold start end-to-end pipeline run** |
 
-### Key Takeaways
+**Key Takeaways**
 
 1. **Serve Layer generates 22 Billion Rows for just £1.48**:
    Writing 6 billion clustered orders and 15.9 billion clustered order lines costs less than a cup of coffee - at Greggs.
 
 2. **Audit Layer is 71% of the Cost (£3.59 of £5.07)**:
-   Financial reconciliation, exact penny integrity checks, and 6-sigma statistical audits scan 764 GB across all 22 billion rows in **22 seconds flat**. At least half of this can be optimised away.
+   Financial reconciliation, exact penny integrity checks, and 6-sigma statistical audits scan 764 GB across all 22 billion rows in 22 seconds. At least half of this cost can be optimised away.
 
 3. **Total Cold-Start Run**:
-   **Time:** 6 min 6 s.
-   **Cost:** **£5.07**.
+   - Time: 6 min 6 s.
+   - Cost: £5.07.
 
 
 <br>
