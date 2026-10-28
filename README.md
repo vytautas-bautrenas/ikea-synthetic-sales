@@ -105,7 +105,7 @@ Below are the results of a cold-start Airflow DAG run at 2026-10-27 22:26:53.
 
 3. **Total Cold-Start Run**:
    **Time:** 6 min 6 s.
-   **Cost:** **£5.07** *(comfortably beating the README's "< £10 in under 10 minutes" benchmark)*.
+   **Cost:** **£5.07**.
 
 
 <br>
