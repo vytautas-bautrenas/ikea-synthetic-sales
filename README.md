@@ -15,7 +15,7 @@ An end-to-end synthetic data pipeline that generates 22 billion e-commerce order
 - [2. Table of Contents](#2-table-of-contents)
 - [3. Problem Statement](#3-problem-statement)
 - [4. Architecture](#4-architecture)
-- [5. Architectural Solutions](#5-architectural-solutions)
+- [5. Running Time and Costs](#5-running-time-and-costs)
 - [6. Repo Structure](#6-repo-structure)
 - [7. Setup](#7-setup)
   - [7.1. Prerequisites](#71-prerequisites)
@@ -57,9 +57,6 @@ Pipeline flow:
 5. **Serve**: Deliver data to downstream FastAPI web applications (`web_app_invoicing/` and `web_app_heatmap/`).
 6. **Orchestrate**: Airflow orchestrates the DAG with automated task-level retries.
 
-<br>
-
-# 5. Architectural Solutions
 
 Core mechanisms enabling sub-10-minute generation of 22 billion rows without data hallucinations:
 
@@ -82,6 +79,34 @@ Core mechanisms enabling sub-10-minute generation of 22 billion rows without dat
 
 6. **Lossless Integer Minor-Units Currency**:
    All monetary amounts are stored as integer minor units (`INT64` pence). Eliminates IEEE 754 floating-point inaccuracies, rounding divergence between rollups, and overhead across all models.
+
+<br>
+
+# 5. Running Time and Costs
+
+Below are the results of full Airflow DAG run at 2026-10-27 22:26:53.
+
+| Layer | Running Time | BigQuery Costs | Data Scanned | What it Does |
+|---|---|---|---|---|
+| **1. Source** | **33s** | **£0.00** *(free)* | ~1.5 GB | Scrapes external seed data (OS, ONS Census, IKEA) |
+| **2. Ingest** | **39s** | **£0.00** *(free)* | ~1.5 GB | Polars streaming $\to$ typed Parquet $\to$ BigQuery raw landing |
+| **3. Transform** | **1m 14s** | **£0.004** *(< 1p)* | 0.87 GB | Intermediate sequence driver (`int_number_expansion`) & basket sizes (`int_order_sizes`) |
+| **4. Serve** | **3m 07s** | **£1.48** | 315.4 GB | Generates 6B `fact_orders`, 15.9B `fact_order_lines`, 70M `dim_customers`, & 10km grid mart |
+| **5. Audit** | **22s** | **£3.59** | 763.6 GB | Reconciles financials, counts & 31 statistical distributions across all 22B rows |
+| **Total** | **6m 06s** | **£5.07** | **1,080 GB (~1.08 TB)** | **Entire cold-start pipeline end-to-end** |
+
+### Key Takeaways
+
+1. **Serve Layer generates 22 Billion Rows for just £1.48**:
+   * Writing 6 billion clustered orders and 15.9 billion clustered order lines costs less than a cup of coffee - at Greggs.
+
+2. **Audit Layer is 71% of the Cost (£3.59 of £5.07)**:
+   * Financial reconciliation, exact penny integrity checks, and 6-sigma statistical audits scan 764 GB across all 22 billion rows in **22 seconds flat**. At least half of this can be optimised away.
+
+3. **Total Cold-Start Run**:
+   * **Time:** 6 min 6 s.
+   * **Cost:** **£5.07** *(comfortably beating the README's "< £10 in under 10 minutes" benchmark)*.
+
 
 <br>
 

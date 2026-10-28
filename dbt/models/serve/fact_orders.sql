@@ -4,7 +4,6 @@
     sql_header = p_rand_gen_header()
 ) }}
 
--- depends_on: {{ ref('fact_order_lines') }}
 
 {% set pg = var('p_granularity') %}
 {% set online_share_1000 = var('online_share') * 1000 %}
