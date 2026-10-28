@@ -103,10 +103,6 @@ Below are the results of a cold-start Airflow DAG run at 2026-10-27 22:26:53.
 2. **Audit Layer is 71% of the Cost (£3.59 of £5.07)**:
    Financial reconciliation, exact penny integrity checks, and 6-sigma statistical audits scan 764 GB across all 22 billion rows in 22 seconds. At least half of this cost can be optimised away.
 
-3. **Total Cold-Start Run**:
-   - Time: 6 min 6 s.
-   - Cost: £5.07.
-
 
 <br>
 
