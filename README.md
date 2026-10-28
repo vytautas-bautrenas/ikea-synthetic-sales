@@ -98,14 +98,14 @@ Below are the results of a cold-start Airflow DAG run at 2026-10-27 22:26:53.
 ### Key Takeaways
 
 1. **Serve Layer generates 22 Billion Rows for just £1.48**:
-   * Writing 6 billion clustered orders and 15.9 billion clustered order lines costs less than a cup of coffee - at Greggs.
+   Writing 6 billion clustered orders and 15.9 billion clustered order lines costs less than a cup of coffee - at Greggs.
 
 2. **Audit Layer is 71% of the Cost (£3.59 of £5.07)**:
-   * Financial reconciliation, exact penny integrity checks, and 6-sigma statistical audits scan 764 GB across all 22 billion rows in **22 seconds flat**. At least half of this can be optimised away.
+   Financial reconciliation, exact penny integrity checks, and 6-sigma statistical audits scan 764 GB across all 22 billion rows in **22 seconds flat**. At least half of this can be optimised away.
 
 3. **Total Cold-Start Run**:
-   * **Time:** 6 min 6 s.
-   * **Cost:** **£5.07** *(comfortably beating the README's "< £10 in under 10 minutes" benchmark)*.
+   - **Time:** 6 min 6 s.
+   - **Cost:** **£5.07** *(comfortably beating the README's "< £10 in under 10 minutes" benchmark)*.
 
 
 <br>
