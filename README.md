@@ -84,16 +84,16 @@ Core mechanisms enabling sub-10-minute generation of 22 billion rows without dat
 
 # 5. Running Time and Costs
 
-Below are the results of full Airflow DAG run at 2026-10-27 22:26:53.
+Below are the results of a cold-start Airflow DAG run at 2026-10-27 22:26:53.
 
 | Layer | Running Time | BigQuery Costs | Data Scanned | What it Does |
 |---|---|---|---|---|
-| **1. Source** | **33s** | **£0.00** *(free)* | ~1.5 GB | Scrapes external seed data (OS, ONS Census, IKEA) |
-| **2. Ingest** | **39s** | **£0.00** *(free)* | ~1.5 GB | Polars streaming $\to$ typed Parquet $\to$ BigQuery raw landing |
-| **3. Transform** | **1m 14s** | **£0.004** *(< 1p)* | 0.87 GB | Intermediate sequence driver (`int_number_expansion`) & basket sizes (`int_order_sizes`) |
-| **4. Serve** | **3m 07s** | **£1.48** | 315.4 GB | Generates 6B `fact_orders`, 15.9B `fact_order_lines`, 70M `dim_customers`, & 10km grid mart |
-| **5. Audit** | **22s** | **£3.59** | 763.6 GB | Reconciles financials, counts & 31 statistical distributions across all 22B rows |
-| **Total** | **6m 06s** | **£5.07** | **1,080 GB (~1.08 TB)** | **Entire cold-start pipeline end-to-end** |
+| **Source** | **33s** | **£0.00** *(free)* | ~1.5 GB | Scrapes external seed data (OS, ONS Census, IKEA website) |
+| **Ingest** | **39s** | **£0.00** *(free)* | ~1.5 GB | Polars streaming $\to$ typed Parquet $\to$ BigQuery raw landing |
+| **Transform** | **1m 14s** | **£0.004** *(< 1p)* | 0.87 GB | Intermediate sequence driver (`int_number_expansion`) & basket sizes (`int_order_sizes`) |
+| **Serve** | **3m 07s** | **£1.48** | 315.4 GB | Generates 6B `fact_orders`, 15.9B `fact_order_lines`, 70M `dim_customers`, & 10km grid mart |
+| **Audit** | **22s** | **£3.59** | 763.6 GB | Reconciles financials, counts & 31 statistical distributions across all 22B rows |
+| **Total** | **6m 06s** | **£5.07** | **1.08 TB** | **Full cold start end-to-end pipeline run** |
 
 ### Key Takeaways
 
