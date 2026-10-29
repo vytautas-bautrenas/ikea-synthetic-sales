@@ -247,7 +247,7 @@ make invoice
 ```
 Open [http://localhost:8000](http://localhost:8000).
 
-- Sample invoice from screenshot: **Order Number**: `7777777`, **Postcode**: `TA18 8PB`
+Sample invoice from screenshot: **Order Number**: `7777777`, **Postcode**: `TA18 8PB`
 
 To look up the postcode for any order number, run this BigQuery SQL:
 
