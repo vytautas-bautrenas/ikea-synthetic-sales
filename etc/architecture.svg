@@ -118,7 +118,7 @@
   <path d="M 605 788 L 605 820" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
   <path d="M 605 948 L 605 978" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
   <text x="619" y="809" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">dbt run (make dbt-run)</text>
-  <text x="619" y="968" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">dbt test &amp; audit (make dbt-audit)</text>
+  <text x="619" y="968" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">dbt audit &amp; test (make dbt-audit)</text>
 
   <!-- ==================== 5. FASTAPI APPS ==================== -->
   <rect x="12" y="1106" width="1132" height="104" rx="12" fill="#fdf4ff" stroke="#a21caf" stroke-width="1.6" />
@@ -186,7 +186,7 @@
   <text x="1407" y="430" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#4f46e5">DAG ikea_sales_pipeline (automated)</text>
   <text x="1407" y="466" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">1 · sourcing — 6 parallel source_*.py</text>
   <text x="1407" y="496" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">2 · ingestion — 5 BigQuery ingest_*.py</text>
-  <text x="1407" y="526" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">3 · dbt run → dbt test → dbt audit</text>
+  <text x="1407" y="526" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">3 · dbt run → dbt audit → dbt test</text>
   <text x="1407" y="556" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">4 · web_apps_readiness (/health probes)</text>
   <text x="1407" y="596" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#15803d">Retries: 3 with exponential backoff</text>
   <text x="1407" y="638" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make airflow-up / airflow-down</text>
@@ -207,7 +207,7 @@
   <text x="1407" y="874" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">Manual CLI — runs any layer on demand</text>
   <text x="1407" y="914" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make env · terra-apply · terra-destroy</text>
   <text x="1407" y="948" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make source-* (×6) · ingest-* (×5)</text>
-  <text x="1407" y="982" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make dbt-run · dbt-test · dbt-audit</text>
+  <text x="1407" y="982" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make dbt-run · dbt-audit · dbt-test</text>
   <text x="1407" y="1016" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make dbt-docs</text>
   <text x="1407" y="1050" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make invoice · make heatmap</text>
   <text x="1407" y="1084" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make airflow-up · airflow-trigger</text>

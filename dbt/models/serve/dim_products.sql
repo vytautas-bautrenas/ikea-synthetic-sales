@@ -11,7 +11,14 @@ SELECT
     url,
     price_100 AS unit_price_100,
     CAST(0.20 AS NUMERIC) AS vat_rate,
+    CAST(
+        ROUND(
+            price_100 * 0.20 / (1 + 0.20)
+        ) AS INT64
+    ) AS unit_vat_100,
     currency,
+    price_100
+    - CAST(ROUND(price_100 * 0.20 / (1 + 0.20)) AS INT64) AS unit_price_excl_vat_100,
     CONCAT(product_name, ' ', product_type) AS product_name
 FROM {{ source('ingest', 'ikea_product_catalog') }}
 WHERE

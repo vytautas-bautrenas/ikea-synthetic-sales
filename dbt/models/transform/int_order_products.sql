@@ -10,6 +10,8 @@ WITH prod AS (
     SELECT
         product_id,
         unit_price_100,
+        unit_vat_100,
+        unit_price_excl_vat_100,
         CAST(ROUND(vat_rate * 100) AS INT64) AS vat_rate_100,
         COALESCE(product_rating_count, {{ nrp_weight }}) AS weight
     FROM {{ ref('dim_products') }}
@@ -19,6 +21,8 @@ cdf_bounds AS (
     SELECT
         product_id,
         unit_price_100,
+        unit_vat_100,
+        unit_price_excl_vat_100,
         vat_rate_100,
         SUM(weight) OVER (ORDER BY product_id) / SUM(weight) OVER () AS cum,
         COALESCE(
@@ -34,6 +38,8 @@ cdf_bounds AS (
 SELECT
     product_id,
     unit_price_100,
+    unit_vat_100,
+    unit_price_excl_vat_100,
     vat_rate_100,
     slot
 FROM cdf_bounds,

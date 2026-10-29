@@ -29,11 +29,8 @@ priced AS (
         l.line_number,
         p.product_id,
         p.unit_price_100,
-        CAST(
-            ROUND(
-                p.unit_price_100 * p.vat_rate_100 / (100 + p.vat_rate_100)
-            ) AS INT64
-        ) AS line_vat_100
+        p.unit_vat_100 AS line_vat_100,
+        p.unit_price_excl_vat_100 AS line_total_excl_vat_100
     FROM lines AS l
     INNER JOIN {{ ref('int_order_products') }} AS p
         ON l.slot = p.slot
@@ -47,5 +44,5 @@ SELECT
     unit_price_100 AS line_price_100,
     unit_price_100 AS line_total_100,
     line_vat_100,
-    unit_price_100 - line_vat_100 AS line_total_excl_vat_100
+    line_total_excl_vat_100
 FROM priced

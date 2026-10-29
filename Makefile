@@ -64,11 +64,11 @@ dbt-compile:
 dbt-docs:
 	source .env && cd dbt && dbt docs generate && dbt docs serve
 
-dbt-test:
-	source .env && cd dbt && dbt test $(if $(SELECT),--select $(SELECT))
-
 dbt-audit:
 	source .env && cd dbt && dbt run --select models/audit
+
+dbt-test:
+	source .env && cd dbt && dbt test $(if $(SELECT),--select $(SELECT))
 
 
 invoice:

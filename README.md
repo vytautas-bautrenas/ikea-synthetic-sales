@@ -92,16 +92,16 @@ Below are the results of a cold-start Airflow DAG run at 2026-10-27 22:26:53.
 | **Ingest** | **39s** | **£0.00** *(free)* | ~1.5 GB | Polars streaming $\to$ typed Parquet $\to$ BigQuery raw landing |
 | **Transform** | **1m 14s** | **£0.004** *(< 1p)* | 0.87 GB | Intermediate sequence driver (`int_number_expansion`) & basket sizes (`int_order_sizes`) |
 | **Serve** | **3m 07s** | **£1.48** | 315.4 GB | Generates 6B `fact_orders`, 15.9B `fact_order_lines`, 70M `dim_customers`, & 10km grid mart |
-| **Audit** | **22s** | **£3.59** | 763.6 GB | Reconciles financials, counts & 31 statistical distributions across all 22B rows |
-| **Total** | **6m 06s** | **£5.07** | **1.08 TB** | **Full cold start end-to-end pipeline run** |
+| **Audit** | **15s** | **£1.65** | 350.6 GB | Reconciles financials, counts & 31 statistical distributions; tests verify summary in 1s |
+| **Total** | **5m 48s** | **£3.13** | **667 GB** | **Full cold start end-to-end pipeline run** |
 
 **Key Takeaways**
 
 1. **Serve Layer generates 22 Billion Rows for just £1.48**:
    Writing 6 billion clustered orders and 15.9 billion clustered order lines costs less than a cup of coffee - at Greggs.
 
-2. **Audit Layer is 71% of the Cost (£3.59 of £5.07)**:
-   Financial reconciliation, exact penny integrity checks, and 6-sigma statistical audits scan 764 GB across all 22 billion rows in 22 seconds. At least half of this cost can be optimised away.
+2. **Audit-First Testing Cuts Bill by 38% (£5.07 $\to$ £3.13)**:
+   By materialising reconciliation metrics once into `inputs_vs_outputs_checks` (351 GB) and asserting zero `FAIL` rows in `dbt test` in 1 second (0 GB), the audit layer scan dropped from 764 GB to 351 GB, eliminating duplicate 22-billion-row full scans and saving £1.94 per run.
 
 
 <br>
@@ -216,10 +216,10 @@ Should any issues arise, the suggestion is to point your AI agent at the repo, a
    make dbt-run
    ```
 
-4. **Run Data Integrity Tests & Financial Audits**:
+4. **Run Financial Audits & Data Integrity Tests**:
    ```bash
-   make dbt-test
    make dbt-audit
+   make dbt-test
    ```
 
 ## 8.3. Cleanup

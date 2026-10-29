@@ -21,7 +21,7 @@
 {% set order_size_3 = var('dispatch_order_size_3') %}
 
 {% set dispatch_hours_1 = var('dispatch_hours_order_size_1') %}
-{% set dispatch_hours_2 = var('dispatch_hours_order_size_2') %}  
+{% set dispatch_hours_2 = var('dispatch_hours_order_size_2') %}
 {% set dispatch_hours_3 = var('dispatch_hours_order_size_3') %}
 {% set dispatch_hours_max = var('dispatch_hours_order_size_max') %}
 
@@ -57,11 +57,8 @@ order_products AS (
         os.order_id,
         os.order_size,
         op.unit_price_100,
-        CAST(
-            ROUND(
-                op.unit_price_100 * op.vat_rate_100 / (100 + op.vat_rate_100)
-            ) AS INT64
-        ) AS line_vat_100
+        op.unit_vat_100 AS line_vat_100,
+        op.unit_price_excl_vat_100 AS line_excl_vat_100
     FROM order_sizes AS os
     INNER JOIN {{ ref('int_order_products') }} AS op
         ON os.slot = op.slot
@@ -76,7 +73,7 @@ lines_agg AS (
         ROUND(
             SAFE_DIVIDE(
                 SUM(line_vat_100) * 100,
-                SUM(unit_price_100 - line_vat_100)
+                SUM(line_excl_vat_100)
             ),
             0
         ) AS order_vat_rate_100
@@ -90,7 +87,8 @@ calculated_orders AS (
         order_size,
         total_goods_100,
         order_vat_rate_100,
-        P_RAND_GEN(CONCAT(CAST(order_id AS STRING), '-order-base'), {{ n_customers }}) AS customer_id,
+        P_RAND_GEN(CONCAT(CAST(order_id AS STRING), '-order-base'), {{ n_customers }})
+            AS customer_id,
 
         CASE
             WHEN MOD(order_id, 1000) < {{ online_share_1000 }} THEN 'online'
@@ -127,7 +125,8 @@ calculated_orders AS (
             ), {{ oh_seconds }}) SECOND
         ) AS order_datetime,
 
-        P_RAND_GEN(CONCAT(CAST(order_id AS STRING), '-payment'), {{ pg }}) / {{ pg }} AS order_id_hash
+        P_RAND_GEN(CONCAT(CAST(order_id AS STRING), '-payment'), {{ pg }})
+        / {{ pg }} AS order_id_hash
     FROM lines_agg
 ),
 
@@ -145,41 +144,78 @@ orders_timeline AS (
 
         CASE
             WHEN order_channel = 'store' THEN order_datetime
-            WHEN order_size <= {{ order_size_1 }} THEN TIMESTAMP_ADD(order_datetime, INTERVAL {{ dispatch_hours_1 }} HOUR)
-            WHEN order_size <= {{ order_size_2 }} THEN TIMESTAMP_ADD(order_datetime, INTERVAL {{ dispatch_hours_2 }} HOUR)
-            WHEN order_size <= {{ order_size_3 }} THEN TIMESTAMP_ADD(order_datetime, INTERVAL {{ dispatch_hours_3 }} HOUR)
+            WHEN
+                order_size <= {{ order_size_1 }}
+                THEN TIMESTAMP_ADD(order_datetime, INTERVAL {{ dispatch_hours_1 }} HOUR)
+            WHEN
+                order_size <= {{ order_size_2 }}
+                THEN TIMESTAMP_ADD(order_datetime, INTERVAL {{ dispatch_hours_2 }} HOUR)
+            WHEN
+                order_size <= {{ order_size_3 }}
+                THEN TIMESTAMP_ADD(order_datetime, INTERVAL {{ dispatch_hours_3 }} HOUR)
             ELSE TIMESTAMP_ADD(order_datetime, INTERVAL {{ dispatch_hours_max }} HOUR)
         END AS dispatch_datetime_candidate,
 
         CASE
             WHEN order_channel = 'store' THEN order_datetime
-            WHEN order_size <= {{ order_size_1 }} THEN TIMESTAMP_ADD(order_datetime, INTERVAL {{ dispatch_hours_1 }} + {{ delivery_hours_1 }} HOUR)
-            WHEN order_size <= {{ order_size_2 }} THEN TIMESTAMP_ADD(order_datetime, INTERVAL {{ dispatch_hours_2 }} + {{ delivery_hours_2 }} HOUR)
-            WHEN order_size <= {{ order_size_3 }} THEN TIMESTAMP_ADD(order_datetime, INTERVAL {{ dispatch_hours_3 }} + {{ delivery_hours_3 }} HOUR)
-            ELSE TIMESTAMP_ADD(order_datetime, INTERVAL {{ dispatch_hours_max }} + {{ delivery_hours_max }} HOUR)
+            WHEN
+                order_size <= {{ order_size_1 }}
+                THEN
+                    TIMESTAMP_ADD(
+                        order_datetime,
+                        INTERVAL {{ dispatch_hours_1 }} + {{ delivery_hours_1 }} HOUR
+                    )
+            WHEN
+                order_size <= {{ order_size_2 }}
+                THEN
+                    TIMESTAMP_ADD(
+                        order_datetime,
+                        INTERVAL {{ dispatch_hours_2 }} + {{ delivery_hours_2 }} HOUR
+                    )
+            WHEN
+                order_size <= {{ order_size_3 }}
+                THEN
+                    TIMESTAMP_ADD(
+                        order_datetime,
+                        INTERVAL {{ dispatch_hours_3 }} + {{ delivery_hours_3 }} HOUR
+                    )
+            ELSE
+                TIMESTAMP_ADD(
+                    order_datetime,
+                    INTERVAL {{ dispatch_hours_max }} + {{ delivery_hours_max }} HOUR
+                )
         END AS delivery_datetime_candidate,
 
         CASE
-            WHEN order_channel = 'online' THEN
-                CASE
-                    {% set ns = namespace(cumulative=0) %}
-                    {% for method, weight in online_weights.items() %}
-                        {% if loop.last %}
-                        ELSE '{{ method }}'
-                        {% else %}
-                        WHEN order_id_hash < {{ (ns.cumulative + weight) / online_weight_total }} THEN '{{ method }}'
-                        {% endif %}
-                        {% set ns.cumulative = ns.cumulative + weight %}
-                    {% endfor %}
-                END
+            WHEN order_channel = 'online'
+                THEN
+                    CASE
+                        {% set ns = namespace(cumulative=0) %}
+                        {% for method, weight in online_weights.items() %}
+                            {% if loop.last %}
+                                ELSE '{{ method }}'
+                            {% else %}
+                                WHEN
+                                    order_id_hash
+                                    < ({{ ns.cumulative + weight }})
+                                    / {{ online_weight_total }}
+                                    THEN '{{ method }}'
+                            {% endif %}
+                            {% set ns.cumulative = ns.cumulative + weight %}
+                        {% endfor %}
+                    END
             ELSE
                 CASE
                     {% set ns = namespace(cumulative=0) %}
                     {% for method, weight in store_weights.items() %}
                         {% if loop.last %}
-                        ELSE '{{ method }}'
+                            ELSE '{{ method }}'
                         {% else %}
-                        WHEN order_id_hash < {{ (ns.cumulative + weight) / store_weight_total }} THEN '{{ method }}'
+                            WHEN
+                                order_id_hash
+                                < ({{ ns.cumulative + weight }})
+                                / {{ store_weight_total }}
+                                THEN '{{ method }}'
                         {% endif %}
                         {% set ns.cumulative = ns.cumulative + weight %}
                     {% endfor %}
@@ -205,6 +241,13 @@ SELECT
     delivery_type,
     customer_id,
     order_datetime,
+    payment_method,
+    order_size,
+    total_goods_100,
+    picking_delivery_100,
+    order_vat_rate_100,
+    total_sales_100,
+    total_vat_100,
     CASE
         WHEN dispatch_datetime_candidate > CURRENT_TIMESTAMP() THEN NULL
         ELSE dispatch_datetime_candidate
@@ -219,12 +262,5 @@ SELECT
         WHEN delivery_datetime_candidate > CURRENT_TIMESTAMP() THEN 'dispatched'
         ELSE 'delivered'
     END AS order_status,
-    payment_method,
-    order_size,
-    total_goods_100,
-    picking_delivery_100,
-    order_vat_rate_100,
-    total_sales_100,
-    total_vat_100,
     total_sales_100 - total_vat_100 AS total_sales_excl_vat_100
 FROM orders_timeline

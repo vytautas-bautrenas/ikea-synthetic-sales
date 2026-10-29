@@ -117,16 +117,16 @@ with DAG(
             task_id="dbt_run",
             bash_command=f"cd {DBT_DIR} && dbt run --exclude models/audit",
         )
-        dbt_test = BashOperator(
-            task_id="dbt_test",
-            bash_command=f"cd {DBT_DIR} && dbt test",
-        )
         dbt_audit = BashOperator(
             task_id="dbt_audit",
             bash_command=f"cd {DBT_DIR} && dbt run --select models/audit",
         )
+        dbt_test = BashOperator(
+            task_id="dbt_test",
+            bash_command=f"cd {DBT_DIR} && dbt test",
+        )
 
-        dbt_run >> dbt_test >> dbt_audit
+        dbt_run >> dbt_audit >> dbt_test
 
     # =========================================================================
     # 4. WEB APPS VERIFICATION TASKGROUP (Readiness Probes via /health)
