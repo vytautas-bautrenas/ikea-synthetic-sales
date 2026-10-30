@@ -205,6 +205,11 @@ def lookup_invoice(
       ON ol.product_id = p.product_id
 
     WHERE o.order_id = @order_id
+      AND c.customer_id = (
+        SELECT customer_id
+        FROM `{PROJECT}.{DATASET}.fact_orders`
+        WHERE order_id = @order_id
+      )
       AND UPPER(REGEXP_REPLACE(c.postcode, r'\s+', '')) = @postcode
 
     ORDER BY ol.line_number ASC
