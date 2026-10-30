@@ -100,10 +100,10 @@ Below are the results of a cold-start Airflow DAG run (`manual__2026-10-30T20:49
 
 **Key Takeaways**
 
-1. **Generating 22 Billion Rows Costs 1.3p (£0.44 Total Serve Layer)**:
+1. **Generating 22 Billion Rows Costs £0.01 (£0.44 Total Serve Layer)**:
    Materialising 6 billion clustered orders (with 15.9 billion nested line items) and 70 million customers scans just **2.75 GB (£0.013)** by generating rows in memory from the 1.15 GB partitioned driver table. Nearly all of the Serve layer bill (**90.6 GB / £0.43**) comes from aggregating those 6 billion orders into the downstream 10km geographic heatmap mart.
 
-2. **10% Block Sampling & Single-Pass Audit Costs 17p (£0.17)**:
+2. **10% Block Sampling & Single-Pass Audit Costs £0.17**:
    By evaluating reconciliation and statistical distribution checks in [`inputs_vs_outputs_checks`](dbt/models/audit/inputs_vs_outputs_checks.sql) using `TABLESAMPLE SYSTEM (10 PERCENT)` (35.8 GB) and running all `dbt test` assertions concurrently alongside the 10km grid build, full quality assurance adds **0 seconds** to the critical path and costs just **£0.17**.
 
 
