@@ -99,8 +99,8 @@ Below are the results of a cold-start Airflow DAG run (`manual__2026-10-30T20:49
 | **Source** | **35s** *(69s in parallel)* | **£0.00** *(free)* | ~1.5 GB | Scrapes external seed data (OS, ONS Census, IKEA website) |
 | **Ingest** | **44s** | **£0.00** *(free)* | ~1.5 GB | Polars streaming $\to$ typed Parquet $\to$ BigQuery raw landing |
 | **Transform** | **11s** *(+62s in parallel)* | **< £0.01** | 0.13 GB | 2,000-partition driver (`int_number_expansion`), product CDF slots & name tables |
-| **Serve** | **3m 09s** | **£0.44** | 93.4 GB | Generates 6B `fact_orders` (15.9B nested lines), 70M `dim_customers`, & 10km grid mart |
-| **Audit & Tests** | **5s** *(+5s in parallel)* | **£0.17** | 35.8 GB | Reconciles financials, counts & statistical distributions (`10% TABLESAMPLE`) + `dbt test` |
+| **Serve** | **3m 14s** | **£0.44** | 93.4 GB | Generates 6B `fact_orders` (15.9B nested lines), 70M `dim_customers`, 10km grid mart & app probes |
+| **Audit & Tests** | **0s** *(5s in parallel)* | **£0.17** | 35.8 GB | Reconciles financials, counts & statistical distributions (`10% TABLESAMPLE`, 3.6s) + `dbt test` (1.1s) |
 | **Total** | **4m 44s** | **£0.61** | **129.4 GB** | **Full cold-start end-to-end pipeline run** |
 
 **Key Takeaways**
