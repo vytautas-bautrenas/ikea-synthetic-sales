@@ -21,6 +21,6 @@ ikea_sales:
       token: dummy-ci-token
       project: "{{ env_var('GCLOUD_PROJECT', 'ikea-synthetic-sales') }}"
       dataset: transform
-      location: "{{ env_var('LOCATION') }}"
+      location: "{{ env_var('LOCATION', 'europe-west2') }}"
       api_endpoint: https://bigquery.googleapis.com/404
       threads: 4
