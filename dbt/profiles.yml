@@ -19,7 +19,7 @@ ikea_sales:
       type: bigquery
       method: oauth-secrets
       token: dummy-ci-token
-      project: "{{ env_var('GCLOUD_PROJECT') }}"
+      project: "{{ env_var('GCLOUD_PROJECT', 'ikea-synthetic-sales') }}"
       dataset: transform
       location: "{{ env_var('LOCATION') }}"
       api_endpoint: https://bigquery.googleapis.com/404
