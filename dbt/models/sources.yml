@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: ingest
-    database: "{{ env_var('GCLOUD_PROJECT') }}"
+    database: "{{ env_var('GCLOUD_PROJECT','ikea-synthetic-sales') }}"
     schema: ingest
     tables:
       - name: ONSPD
@@ -18,7 +18,7 @@ sources:
   # Store dimension lives in the serve dataset (python/ingest_stores.py), not in
   # ingest: it is reference data typed by hand, not a scraped source file.
   - name: serve
-    database: "{{ env_var('GCLOUD_PROJECT') }}"
+    database: "{{ env_var('GCLOUD_PROJECT', 'ikea-synthetic-sales') }}"
     schema: serve
     tables:
       - name: dim_stores
