@@ -1,5 +1,5 @@
 {{ config(
-    materialized = 'table',
+    materialized = 'ephemeral',
     sql_header = p_rand_gen_header()
 ) }}
 
@@ -18,18 +18,13 @@ WITH size_p AS (
     SELECT * FROM
         UNNEST([
             {% for size, p in explicit.items() %}
-                STRUCT(
-                    {{ size }} AS size,
-                    {{ p }} AS p
-                ){{ "," if not loop.last }}
+                STRUCT({{ size }} AS size, {{ p }} AS p){{ "," if not loop.last }}
             {% endfor %}
         ])
     UNION ALL
     SELECT
         s AS size,
-        {{ tail_weight | round(12) }}
-        * {{ decay }}
-        * POW(1 - {{ decay }}, s - {{ tail_start }}) AS p
+        {{ tail_weight | round(12) }} * {{ decay }} * POW(1 - {{ decay }}, s - {{ tail_start }}) AS p
     FROM UNNEST(GENERATE_ARRAY({{ tail_start }}, {{ max_size }})) AS s
 ),
 

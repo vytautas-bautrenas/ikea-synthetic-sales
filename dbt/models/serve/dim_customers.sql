@@ -1,6 +1,6 @@
 {{ config(
     materialized = 'table',
-    cluster_by=['customer_id', 'postcode'],
+    cluster_by = ['customer_id', 'postcode'],
     sql_header = p_rand_gen_header()
 ) }}
 
@@ -57,17 +57,11 @@ SELECT
     sn.postcode_area,
     sn.postcode,
     sn.country,
-    CONCAT(
-        LOWER(f.forename), '.', LOWER(s.surname), CAST(d.email_draw AS STRING),
-        '@example.com'
-    ) AS email
+    CONCAT(LOWER(f.forename), '.', LOWER(s.surname), CAST(d.email_draw AS STRING), '@example.com') AS email
 FROM drawn AS d
-LEFT JOIN
-    {{ ref('int_customer_forenames') }} AS f
+LEFT JOIN {{ ref('int_customer_forenames') }} AS f
     ON d.forename_slot = f.slot
-LEFT JOIN
-    {{ ref('int_customer_surnames') }} AS s
+LEFT JOIN {{ ref('int_customer_surnames') }} AS s
     ON d.surname_slot = s.slot
-LEFT JOIN
-    {{ ref('int_customer_street_names') }} AS sn
+LEFT JOIN {{ ref('int_customer_street_names') }} AS sn
     ON d.postcode_draw = sn.postcode_id

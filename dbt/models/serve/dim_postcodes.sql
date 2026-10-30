@@ -23,14 +23,14 @@ SELECT
     east1m,
     north1m,
     ctry25cd,
-    IF(lat < 90.0, lat, NULL) AS lat,
-    IF(lat < 90.0, long, NULL) AS long,
     o.lad25cd,
     o.bua24cd,
     lad25nm,
     bua24nm,
-    COALESCE(bua24nm, lad25nm, 'SQL Town') AS city_town,
     pa.postcode_area,
+    IF(lat < 90.0, lat, NULL) AS lat,
+    IF(lat < 90.0, long, NULL) AS long,
+    COALESCE(bua24nm, lad25nm, 'SQL Town') AS city_town,
     SPLIT(pcds, ' ')[OFFSET(0)] AS postcode_district,
     CASE ctry25cd
         WHEN 'E92000001' THEN 'England'
@@ -46,12 +46,13 @@ LEFT JOIN lad_names AS l ON o.lad25cd = l.lad25cd
 LEFT JOIN {{ source('ingest', 'onspd_postcode_areas') }} AS pa
     ON pa.area_code = REGEXP_EXTRACT(o.pcds, r'^[A-Z]+')
 WHERE
-    doterm IS null
+    doterm IS NULL
     AND pcds <> 'GIR 0AA'
     -- UK geographical mainland bounding box:
     -- Lat: 49.5°N (South of Lizard Point, Cornwall ~49.96°N) to 61.0°N (North of Shetland ~60.86°N)
     -- Long: -11.0°W (West of Northern Ireland ~8.18°W) to 2.5°E (East of Lowestoft Ness, Suffolk ~1.76°E)
-    -- Excludes: Channel Islands (Jersey/Guernsey), Isle of Man (IKEA UK does not deliver there), and records with missing/null ONS coordinates
+    -- Excludes: Channel Islands (Jersey/Guernsey), Isle of Man (IKEA UK does not deliver there),
+    -- and records with missing/null ONS coordinates
     AND lat IS NOT NULL
     AND long IS NOT NULL
     AND lat BETWEEN 49.5 AND 61.0

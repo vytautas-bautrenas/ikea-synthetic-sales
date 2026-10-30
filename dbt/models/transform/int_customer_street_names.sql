@@ -1,6 +1,6 @@
 {{ config(
-    materialized='table',
-    cluster_by=['postcode_id'],
+    materialized = 'table',
+    cluster_by = ['postcode_id'],
     sql_header = p_rand_gen_header()
 ) }}
 
@@ -15,10 +15,7 @@ WITH postcodes AS (
         country,
         postcode_area,
         city_town,
-        ROW_NUMBER() OVER (
-            PARTITION BY postcode_district
-            ORDER BY pcds
-        ) - 1 AS district_rank,
+        ROW_NUMBER() OVER (PARTITION BY postcode_district ORDER BY pcds) - 1 AS district_rank,
         P_RAND_GEN(pcds, {{ pg }}) AS fallback_slot
     FROM {{ ref('dim_postcodes') }}
 ),
@@ -27,10 +24,7 @@ street_names AS (
     SELECT
         postcode_district,
         road_name,
-        ROW_NUMBER() OVER (
-            PARTITION BY postcode_district
-            ORDER BY RAND()
-        ) - 1 AS name_rank,
+        ROW_NUMBER() OVER (PARTITION BY postcode_district ORDER BY RAND()) - 1 AS name_rank,
         COUNT(*) OVER (PARTITION BY postcode_district) AS names_available
     FROM {{ source('ingest', 'uk_street_names') }}
 ),
@@ -42,9 +36,7 @@ fallback_slots AS (
     FROM (
         SELECT
             road_name,
-            ROW_NUMBER() OVER (
-                ORDER BY RAND()
-            ) - 1 AS name_rank,
+            ROW_NUMBER() OVER (ORDER BY RAND()) - 1 AS name_rank,
             COUNT(*) OVER () AS names_available
         FROM
             (
@@ -68,13 +60,11 @@ SELECT
     COALESCE(sn.road_name, fb.road_name) AS street_name,
     IF(sn.road_name IS NULL, 'fallback', 'district') AS street_name_level
 FROM postcodes AS p
-LEFT JOIN
-    street_names AS sn
+LEFT JOIN street_names AS sn
     ON
         p.postcode_district = sn.postcode_district
         AND sn.name_rank = MOD(p.district_rank, sn.names_available)
-LEFT JOIN
-    fallback_slots AS fb
+LEFT JOIN fallback_slots AS fb
     ON
         sn.road_name IS NULL
         AND p.fallback_slot = fb.slot

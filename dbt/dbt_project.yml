@@ -127,6 +127,8 @@ vars:
       trustly: 0.03
 
 
+  # --- Audit & Test ----------------------------------------------------------
+
   # Fault tolerance in standard deviations for dbt checks and tests. A value of 6 means
   # that a false alarm would be triggered only once in 22,000,000 runs across 23 parameters,
   # meaning the test failure indicates a process issue, not an odd run.
@@ -134,6 +136,10 @@ vars:
   # meaning the threshold works for just any n_orders value effectively.
 
   fault_tolerance_sigma: 6
+
+  # Default 10% random sample for audit checks.
+  audit_sample_size: 0.10  
+
 
 
   # --- Technical -------------------------------------------------------------
@@ -145,7 +151,7 @@ vars:
                            # Value 1m means 1-in-a-million
                            # choices are included.
 
-  n_numbers: 100000000     # Technical variable to force BQ parallelize large
+  n_numbers: 150000000     # Technical variable to force BQ parallelize large
                            # scale integer generation or order line generation.
                            # Must cover ceil(n_orders / gen_chunk_size)
                            # (6bn / 1000 = 6m rows needed — 100m gives headroom).

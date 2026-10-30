@@ -21,15 +21,8 @@ WITH surnames AS (
         -- so mixed-case names (O'Brien, McDonald) stay exactly as the DfE shipped them
         name_count,
 
-        IF(
-            surname = UPPER(surname),
-            INITCAP(surname),
-            surname
-        ) AS surname,
-
-        SUM(name_count) OVER (
-            ORDER BY name_count DESC, surname ASC
-        ) / SUM(name_count) OVER () AS cdf_cum,
+        IF(surname = UPPER(surname), INITCAP(surname), surname) AS surname,
+        SUM(name_count) OVER (ORDER BY name_count DESC, surname ASC) / SUM(name_count) OVER () AS cdf_cum,
 
         COALESCE(
             SUM(name_count) OVER (

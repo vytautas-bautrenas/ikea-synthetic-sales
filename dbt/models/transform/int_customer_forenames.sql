@@ -9,16 +9,8 @@
 WITH forenames AS (
     SELECT
         name_count,
-
-        IF(
-            forename = UPPER(forename),
-            INITCAP(forename),
-            forename
-        ) AS forename,
-
-        SUM(name_count) OVER (
-            ORDER BY name_count DESC, forename ASC
-        ) / SUM(name_count) OVER () AS cdf_cum,
+        IF(forename = UPPER(forename), INITCAP(forename), forename) AS forename,
+        SUM(name_count) OVER (ORDER BY name_count DESC, forename ASC) / SUM(name_count) OVER () AS cdf_cum,
 
         COALESCE(
             SUM(name_count) OVER (

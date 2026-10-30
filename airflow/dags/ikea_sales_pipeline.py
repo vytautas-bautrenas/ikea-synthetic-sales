@@ -109,24 +109,28 @@ with DAG(
     src_streets >> ing_streets
     src_postcode_areas >> ing_onspd
 
+    # Independent integer sequence generator (0-based numbers table)
+    # Generates 150m numbers in BigQuery; completely independent of ingestion.
+    dbt_number_expansion = BashOperator(
+        task_id="dbt_number_expansion",
+        bash_command=f"cd {DBT_DIR} && dbt run --select int_number_expansion",
+    )
+    pipeline_start >> dbt_number_expansion
+
     # =========================================================================
-    # 3. DBT TASKGROUP (Transform, Serve & Quality Assurance)
+    # 3. DBT TASKGROUP (Transform, Serve, Audit & Tests)
     # =========================================================================
-    with TaskGroup("dbt_modeling", tooltip="dbt transformation, tests, and audit") as dbt_modeling:
+    with TaskGroup("dbt_modeling", tooltip="dbt transformation, audit, and tests") as dbt_modeling:
         dbt_run = BashOperator(
             task_id="dbt_run",
-            bash_command=f"cd {DBT_DIR} && dbt run --exclude models/audit",
-        )
-        dbt_audit = BashOperator(
-            task_id="dbt_audit",
-            bash_command=f"cd {DBT_DIR} && dbt run --select models/audit",
+            bash_command=f"cd {DBT_DIR} && dbt run --exclude int_number_expansion",
         )
         dbt_test = BashOperator(
             task_id="dbt_test",
             bash_command=f"cd {DBT_DIR} && dbt test",
         )
 
-        dbt_run >> dbt_audit >> dbt_test
+        dbt_run >> dbt_test
 
     # =========================================================================
     # 4. WEB APPS VERIFICATION TASKGROUP (Readiness Probes via /health)
@@ -144,5 +148,5 @@ with DAG(
 
     pipeline_complete = EmptyOperator(task_id="pipeline_complete")
 
-    # End-to-end waterfall flow
-    ingest_complete >> dbt_modeling >> web_apps_readiness >> pipeline_complete
+    # End-to-end flow: dbt_modeling waits for BOTH raw ingestion and number expansion
+    [ingest_complete, dbt_number_expansion] >> dbt_modeling >> web_apps_readiness >> pipeline_complete

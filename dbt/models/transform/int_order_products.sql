@@ -1,6 +1,6 @@
 {{ config(
-    materialized='table',
-    cluster_by=['slot']
+    materialized = 'table',
+    cluster_by = ['slot']
 ) }}
 
 {% set pg = var('p_granularity') %}
