@@ -14,3 +14,13 @@ ikea_sales:
       job_creation_timeout_seconds: 120
       job_execution_timeout_seconds: 1800
       job_retry_deadline_seconds: 1800
+
+    ci:
+      type: bigquery
+      method: oauth-secrets
+      token: dummy-ci-token
+      project: "{{ env_var('GCLOUD_PROJECT') }}"
+      dataset: transform
+      location: "{{ env_var('LOCATION') }}"
+      api_endpoint: https://bigquery.googleapis.com/404
+      threads: 4

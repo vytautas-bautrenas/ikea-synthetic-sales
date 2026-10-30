@@ -16,17 +16,17 @@ WITH np AS (
 
 drawn AS (
     SELECT
-        i AS customer_id,
-        P_RAND_GEN(CONCAT(CAST(i AS STRING), '-forename'), {{ pg }}) AS forename_slot,
-        P_RAND_GEN(CONCAT(CAST(i AS STRING), '-surname'), {{ pg }}) AS surname_slot,
-        P_RAND_GEN(CONCAT(CAST(i AS STRING), '-postcode'), np.n_postcodes) AS postcode_draw,
-        P_RAND_GEN(CONCAT(CAST(i AS STRING), '-house'), {{ house_number_max }}) AS house_draw,
-        P_RAND_GEN(CONCAT(CAST(i AS STRING), '-flat'), 100) AS flat_draw,
-        P_RAND_GEN(CONCAT(CAST(i AS STRING), '-flat-label'), 40) AS flat_label_draw,
-        P_RAND_GEN(CONCAT(CAST(i AS STRING), '-email'), 10000) AS email_draw
-    FROM {{ ref('int_number_expansion') }}
+        num.i AS customer_id,
+        P_RAND_GEN(CONCAT(CAST(num.i AS STRING), '-forename'), {{ pg }}) AS forename_slot,
+        P_RAND_GEN(CONCAT(CAST(num.i AS STRING), '-surname'), {{ pg }}) AS surname_slot,
+        P_RAND_GEN(CONCAT(CAST(num.i AS STRING), '-postcode'), np.n_postcodes) AS postcode_draw,
+        P_RAND_GEN(CONCAT(CAST(num.i AS STRING), '-house'), {{ house_number_max }}) AS house_draw,
+        P_RAND_GEN(CONCAT(CAST(num.i AS STRING), '-flat'), 100) AS flat_draw,
+        P_RAND_GEN(CONCAT(CAST(num.i AS STRING), '-flat-label'), 40) AS flat_label_draw,
+        P_RAND_GEN(CONCAT(CAST(num.i AS STRING), '-email'), 10000) AS email_draw
+    FROM {{ ref('int_number_expansion') }} AS num
     CROSS JOIN np
-    WHERE i < {{ n_customers }}
+    WHERE num.i < {{ n_customers }}
 )
 
 SELECT

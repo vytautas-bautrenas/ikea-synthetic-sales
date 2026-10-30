@@ -26,6 +26,9 @@ jobs:
       - name: Compile-check Python modules
         run: uv run python -m py_compile python/*.py airflow/dags/*.py web_app_heatmap/main.py web_app_invoicing/main.py
 
+      - name: Lint SQL (SQLFluff)
+        run: uv run sqlfluff lint --disable-progress-bar dbt/models/ dbt/tests/
+
       - name: Check Terraform formatting
         uses: hashicorp/setup-terraform@v3
         with:
