@@ -1,6 +1,6 @@
 # 1. IKEA Synthetic Sales Data Pipeline
 
-An end-to-end synthetic data pipeline that generates 22 billion e-commerce order rows in less than 10 minutes, for less than £10.
+An end-to-end synthetic data pipeline that generates 22 billion e-commerce order rows in 4m 44s, for £0.61.
 
 <p align="center">
    <img src="etc/uk-sales-geographic-heatmap.png" width="51%" alt="UK Sales 10km Grid Heatmap" />
@@ -41,7 +41,7 @@ An end-to-end synthetic data pipeline that generates 22 billion e-commerce order
 - Public commercial sales datasets are virtually non-existent at scale.
 - Real retailer data cannot be published due to commercial confidentiality and GDPR; results cannot be reproduced publicly even if a data engineer acquired access to a real company data.
 - LLM generation at scale (10 billion+ rows) is prohibitively slow and may cost tens of thousands of pounds in API tokens.
-- **Solution**: Generate a deterministic, scalable, mathematically rigorous synthetic dataset with 22 billion detail rows, 6 billion orders and 70 million customers, in less than 10 minutes, for less than £10 in cloud compute, with zero LLM API costs.
+- **Solution**: Generate a deterministic, scalable, mathematically rigorous synthetic dataset with 22 billion detail rows, 6 billion orders and 70 million customers, in 4m 44s, for £0.61 in cloud compute, with zero LLM API costs.
 
 <br>
 
@@ -58,13 +58,13 @@ Pipeline flow:
 6. **Orchestrate**: Airflow orchestrates the DAG with automated task-level retries.
 
 
-Core mechanisms enabling sub-10-minute generation of 22 billion rows without data hallucinations:
+Core mechanisms enabling sub-5-minute generation of 22 billion rows without data hallucinations:
 
 1. **Storage-Driven Slot Parallelism (`int_number_expansion`)**:
-   BigQuery's in-memory `GENERATE_ARRAY()` runs on a single worker slot (`parallelInputs = 1`). Materializing 150M sequence numbers (~1.15 GB) to storage partitions forces BigQuery to read via multi-slot storage blocks, immediately engaging 200+ parallel workers and generating 6 billion IDs in seconds.
+   In BigQuery, generating rows in memory with `GENERATE_ARRAY()` runs on a single worker, whereas reading from a table assigns one parallel worker per storage partition. `int_number_expansion` pre-generates 150 million integers (~1.15 GB) split across 2,000 integer-range partitions (`MOD(i, 2000)`). When `fact_orders` reads this table, BigQuery immediately spins up 2,000 parallel workers — saturating the project's 2,000-slot quota — to generate all 6 billion orders and 15.9 billion line items in under 3 minutes.
 
 2. **Fault Resilience & Retry Architecture**:
-   To ensure cold-start execution integrity across external scrapers and long-running warehouse transformations, the pipeline implements a 4-layer defense-in-depth shield: in-process client SDK retries (`urllib` 3× exponential backoff, BigQuery 8MB resumable chunk uploads with 600s budgets, and dbt `job_retries: 3`), atomic zero-corruption staging (`.part` streaming temp files with byte-size verification before rename, `WRITE_TRUNCATE` table loads, and atomic `CREATE OR REPLACE TABLE` dbt models), uniform Airflow task retries (`retries: 3` with exponential backoff across all 19 DAG tasks), and web app runtime resilience with warm BigQuery client session pooling and self-healing memory caches.
+   To ensure cold-start execution integrity across external scrapers and long-running warehouse transformations, the pipeline implements a 4-layer defense-in-depth shield: in-process client SDK retries (`urllib` 3× exponential backoff, BigQuery 8MB resumable chunk uploads with 600s budgets, and dbt `job_retries: 3`), atomic zero-corruption staging (`.part` streaming temp files with byte-size verification before rename, `WRITE_TRUNCATE` table loads, and atomic `CREATE OR REPLACE TABLE` dbt models), uniform Airflow task retries (`retries: 3` with exponential backoff across all 17 DAG tasks), and web app runtime resilience with warm BigQuery client session pooling and self-healing memory caches.
 
    ![Retry Resilience](etc/retry_resilience.svg)
 
@@ -87,24 +87,24 @@ Core mechanisms enabling sub-10-minute generation of 22 billion rows without dat
 
 # 5. Running Time and Costs
 
-Below are the results of a cold-start Airflow DAG run at 2026-10-27 22:26:53.
+Below are the results of a cold-start Airflow DAG run (`manual__2026-10-30T20:49:09.217595+00:00`). Because Airflow and `dbt build` execute independent tasks concurrently, the table shows each layer's **critical-path wall time** alongside work hidden in parallel.
 
-| Layer | Running Time | BigQuery Costs | Data Scanned | What it Does |
+| Layer | Critical-Path Time | BigQuery Costs | Data Scanned | What it Does |
 |---|---|---|---|---|
-| **Source** | **33s** | **£0.00** *(free)* | ~1.5 GB | Scrapes external seed data (OS, ONS Census, IKEA website) |
-| **Ingest** | **39s** | **£0.00** *(free)* | ~1.5 GB | Polars streaming $\to$ typed Parquet $\to$ BigQuery raw landing |
-| **Transform** | **1m 14s** | **£0.004** *(< 1p)* | 0.87 GB | Intermediate sequence driver (`int_number_expansion`) & basket sizes (`int_order_sizes`) |
-| **Serve** | **3m 07s** | **£1.48** | 315.4 GB | Generates 6B `fact_orders`, 15.9B `fact_order_lines`, 70M `dim_customers`, & 10km grid mart |
-| **Audit** | **15s** | **£1.65** | 350.6 GB | Reconciles financials, counts & 31 statistical distributions; tests verify summary in 1s |
-| **Total** | **5m 48s** | **£3.13** | **667 GB** | **Full cold start end-to-end pipeline run** |
+| **Source** | **35s** *(69s in parallel)* | **£0.00** *(free)* | ~1.5 GB | Scrapes external seed data (OS, ONS Census, IKEA website) |
+| **Ingest** | **44s** | **£0.00** *(free)* | ~1.5 GB | Polars streaming $\to$ typed Parquet $\to$ BigQuery raw landing |
+| **Transform** | **11s** *(+62s in parallel)* | **< £0.01** | 0.13 GB | 2,000-partition driver (`int_number_expansion`), product CDF slots & name tables |
+| **Serve** | **3m 09s** | **£0.44** | 93.4 GB | Generates 6B `fact_orders` (15.9B nested lines), 70M `dim_customers`, & 10km grid mart |
+| **Audit & Tests** | **5s** *(+5s in parallel)* | **£0.17** | 35.8 GB | Reconciles financials, counts & statistical distributions (`10% TABLESAMPLE`) + `dbt test` |
+| **Total** | **4m 44s** | **£0.61** | **129.4 GB** | **Full cold-start end-to-end pipeline run** |
 
 **Key Takeaways**
 
-1. **Serve Layer generates 22 Billion Rows for just £1.48**:
-   Writing 6 billion clustered orders and 15.9 billion clustered order lines costs less than a cup of coffee - at Greggs.
+1. **Generating 22 Billion Rows Costs 1.3p (£0.44 Total Serve Layer)**:
+   Materialising 6 billion clustered orders (with 15.9 billion nested line items) and 70 million customers scans just **2.75 GB (£0.013)** by generating rows in memory from the 1.15 GB partitioned driver table. Nearly all of the Serve layer bill (**90.6 GB / £0.43**) comes from aggregating those 6 billion orders into the downstream 10km geographic heatmap mart.
 
-2. **Audit-First Testing Cuts Bill by 38% (£5.07 $\to$ £3.13)**:
-   By materialising reconciliation metrics once into `inputs_vs_outputs_checks` (351 GB) and asserting zero `FAIL` rows in `dbt test` in 1 second (0 GB), the audit layer scan dropped from 764 GB to 351 GB, eliminating duplicate 22-billion-row full scans and saving £1.94 per run.
+2. **10% Block Sampling & Single-Pass Audit Costs 17p (£0.17)**:
+   By evaluating reconciliation and statistical distribution checks in [`inputs_vs_outputs_checks`](dbt/models/audit/inputs_vs_outputs_checks.sql) using `TABLESAMPLE SYSTEM (10 PERCENT)` (35.8 GB) and running all `dbt test` assertions concurrently alongside the 10km grid build, full quality assurance adds **0 seconds** to the critical path and costs just **£0.17**.
 
 
 <br>

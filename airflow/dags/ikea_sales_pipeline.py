@@ -68,9 +68,6 @@ with DAG(
             bash_command=f"python3 {PYTHON_DIR}/source_postcode_areas.py",
         )
 
-        # Postcode areas processing depends on ONSPD extract
-        src_onspd >> src_postcode_areas
-
     # =========================================================================
     # 2. INGESTION TASKGROUP (Raw BigQuery table loads)
     # =========================================================================
@@ -96,41 +93,20 @@ with DAG(
             bash_command=f"python3 {PYTHON_DIR}/ingest_onspd.py",
         )
 
-        ingest_complete = EmptyOperator(task_id="ingest_complete")
-
-        # All ingestion tasks converge into completion checkpoint
-        [ing_names, ing_stores, ing_prod_cat, ing_streets, ing_onspd] >> ingest_complete
-
-    # Granular wiring: each ingestion step begins as soon as its source completes
-    pipeline_start >> sourcing
-    src_names >> ing_names
-    src_stores >> ing_stores
-    src_prod_cat >> ing_prod_cat
-    src_streets >> ing_streets
-    src_postcode_areas >> ing_onspd
-
-    # Independent integer sequence generator (0-based numbers table)
-    # Generates 150m numbers in BigQuery; completely independent of ingestion.
-    dbt_number_expansion = BashOperator(
-        task_id="dbt_number_expansion",
-        bash_command=f"cd {DBT_DIR} && dbt run --select int_number_expansion",
-    )
-    pipeline_start >> dbt_number_expansion
-
     # =========================================================================
     # 3. DBT TASKGROUP (Transform, Serve, Audit & Tests)
     # =========================================================================
     with TaskGroup("dbt_modeling", tooltip="dbt transformation, audit, and tests") as dbt_modeling:
-        dbt_run = BashOperator(
-            task_id="dbt_run",
-            bash_command=f"cd {DBT_DIR} && dbt run --exclude int_number_expansion",
+        dbt_number_expansion = BashOperator(
+            task_id="dbt_number_expansion",
+            bash_command=f"cd {DBT_DIR} && dbt run --select int_number_expansion",
         )
-        dbt_test = BashOperator(
-            task_id="dbt_test",
-            bash_command=f"cd {DBT_DIR} && dbt test",
+        dbt_build = BashOperator(
+            task_id="dbt_build",
+            bash_command=f"cd {DBT_DIR} && dbt build --exclude int_number_expansion",
         )
 
-        dbt_run >> dbt_test
+        dbt_number_expansion >> dbt_build
 
     # =========================================================================
     # 4. WEB APPS VERIFICATION TASKGROUP (Readiness Probes via /health)
@@ -148,5 +124,14 @@ with DAG(
 
     pipeline_complete = EmptyOperator(task_id="pipeline_complete")
 
-    # End-to-end flow: dbt_modeling waits for BOTH raw ingestion and number expansion
-    [ingest_complete, dbt_number_expansion] >> dbt_modeling >> web_apps_readiness >> pipeline_complete
+    # =========================================================================
+    # 5. PIPELINE WIRING
+    # =========================================================================
+    src_names >> ing_names
+    src_stores >> ing_stores
+    src_prod_cat >> ing_prod_cat
+    src_streets >> ing_streets
+    src_onspd >> src_postcode_areas >> ing_onspd
+
+    pipeline_start >> [sourcing, dbt_number_expansion]
+    ingestion >> dbt_build >> web_apps_readiness >> pipeline_complete
