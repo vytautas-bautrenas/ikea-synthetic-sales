@@ -61,7 +61,7 @@ Pipeline flow:
 Core mechanisms enabling sub-10-minute generation of 22 billion rows without data hallucinations:
 
 1. **Storage-Driven Slot Parallelism (`int_number_expansion`)**:
-   BigQuery's in-memory `GENERATE_ARRAY()` runs on a single worker slot (`parallelInputs = 1`). Materializing 100M sequence numbers to storage partitions forces BigQuery to read via multi-slot storage blocks, immediately engaging 200+ parallel workers and generating 6 billion IDs in seconds.
+   BigQuery's in-memory `GENERATE_ARRAY()` runs on a single worker slot (`parallelInputs = 1`). Materializing 150M sequence numbers (~1.15 GB) to storage partitions forces BigQuery to read via multi-slot storage blocks, immediately engaging 200+ parallel workers and generating 6 billion IDs in seconds.
 
 2. **Fault Resilience & Retry Architecture**:
    To ensure cold-start execution integrity across external scrapers and long-running warehouse transformations, the pipeline implements a 4-layer defense-in-depth shield: in-process client SDK retries (`urllib` 3× exponential backoff, BigQuery 8MB resumable chunk uploads with 600s budgets, and dbt `job_retries: 3`), atomic zero-corruption staging (`.part` streaming temp files with byte-size verification before rename, `WRITE_TRUNCATE` table loads, and atomic `CREATE OR REPLACE TABLE` dbt models), uniform Airflow task retries (`retries: 3` with exponential backoff across all 19 DAG tasks), and web app runtime resilience with warm BigQuery client session pooling and self-healing memory caches.
@@ -74,8 +74,11 @@ Core mechanisms enabling sub-10-minute generation of 22 billion rows without dat
 4. **Streaming CSV-to-Parquet Pre-Processing**:
    Raw text parsing in BigQuery on multi-GB files (e.g. 1.4 GB ONSPD) takes 40–60s and suffers from loose type inference. Streaming raw CSVs locally through Polars (`scan_csv().sink_parquet()`) produces compressed columnar Parquet in ~3s. BigQuery loads Parquet directly, bypassing text parsing bottlenecks.
 
-5. **Single-Pass Order Generation & Zero-Join Aggregation (`fact_orders`)**:
-   Separates line-item aggregation from order header generation. `fact_orders` aggregates basket pricing in memory from `int_order_sizes` and derives customer, channel, timeline, and payment attributes in a single pass without multi-table shuffle joins. This eliminates 4 massive 6-billion-row distributed shuffle joins and saves over 360 million slot-milliseconds, completing 6 billion orders in under 5 minutes.
+5. **Nested Line Items & Zero-Join Order Retrieval (`fact_orders`)**:
+   Instead of storing order headers and order lines in separate tables that require expensive multi-billion-row shuffle joins to recombine, `fact_orders` pairs order-level attributes (`customer_id`, `payment_method`, `delivery_type`, timestamps, totals) directly with a nested `ARRAY<STRUCT>` of item details (`product_id`, `unit_price`, `unit_vat`).
+   - **Zero-Join Reads**: Point lookups (such as generating a customer's VAT invoice) read the entire order and all its line items from a single clustered row with no table joins.
+   - **Columnar Skipping**: Downstream aggregations (such as the 10km grid sales mart) scan only the header columns and completely skip reading the nested item arrays.
+   - **Relational View Flexibility**: A flat `fact_order_lines` view is provided for traditional BI tools by unnesting on the fly, with zero duplicate storage cost.
 
 6. **Lossless Integer Minor-Units Currency**:
    All monetary amounts are stored as integer minor units (`INT64` pence). Eliminates IEEE 754 floating-point inaccuracies, rounding divergence between rollups, and overhead across all models.
@@ -211,14 +214,13 @@ Should any issues arise, the suggestion is to point your AI agent at the repo, a
    make ingest-onspd ingest-prod-cat ingest-names ingest-streets ingest-stores
    ```
 
-3. **Run dbt Transformations**:
+3. **Run Data Synthesis**:
    ```bash
    make dbt-run
    ```
 
-4. **Run Financial Audits & Data Integrity Tests**:
+4. **Run Data Integrity & Audit Tests**:
    ```bash
-   make dbt-audit
    make dbt-test
    ```
 
@@ -252,13 +254,15 @@ Sample invoice from screenshot: **Order Number**: `7777777`, **Postcode**: `TA18
 To look up the postcode for any order number, run this BigQuery SQL:
 
 ```sql
-SELECT *
-FROM
-  `<project-id>.serve.fact_orders` fo
-  LEFT JOIN `<project-id>.serve.fact_order_lines` fol
-    ON fo.order_id = fol.order_id
-  LEFT JOIN `<project-id>.serve.dim_customers` c
-    ON fo.customer_id = c.customer_id
+SELECT
+  fo.order_id,
+  c.customer_id,
+  c.first_name,
+  c.last_name,
+  c.postcode
+FROM `<project-id>.serve.fact_orders` fo
+LEFT JOIN `<project-id>.serve.dim_customers` c
+  ON fo.customer_id = c.customer_id
 WHERE fo.order_id = 7777777
 ```
 *(replace `<project-id>` with your GCP project ID)*
