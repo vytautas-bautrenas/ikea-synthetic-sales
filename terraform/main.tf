@@ -13,8 +13,8 @@ terraform {
 }
 
 provider "google" {
-  project = var.project_id
-  region  = var.location
+  project     = var.project_id
+  region      = var.location
   credentials = file(var.credentials)
 }
 
@@ -103,5 +103,5 @@ output "pipeline_sa_email" {
 output "sa_key_b64" {
   description = "Pipeline service account key"
   value       = google_service_account_key.pipeline_sa_key.private_key
-  sensitive   = true 
+  sensitive   = true
 }

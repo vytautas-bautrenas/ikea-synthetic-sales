@@ -2,7 +2,7 @@ SHELL := /bin/bash
 
 .PHONY: env terra-apply terra-destroy ingest-onspd ingest-prod-cat \
 	ingest-stores source-names ingest-names source-streets ingest-streets \
-	source-onspd source-postcode-areas source-prod-cat dbt-run dbt-compile dbt-test dbt-audit \
+	source-onspd source-postcode-areas source-prod-cat dbt-build dbt-run dbt-compile dbt-test \
 	dbt-parse source-stores dbt-docs invoice heatmap \
 	airflow-up airflow-down airflow-trigger airflow-logs
 
@@ -52,6 +52,9 @@ ingest-streets:
 	source .env && cd python && uv run ingest_streets.py
 
 
+dbt-build:
+	source .env && cd dbt && dbt build $(if $(SELECT),--select $(SELECT))
+
 dbt-run:
 	source .env && cd dbt && dbt run $(if $(SELECT),--select $(SELECT))
 
@@ -63,9 +66,6 @@ dbt-compile:
 
 dbt-docs:
 	source .env && cd dbt && dbt docs generate && dbt docs serve
-
-dbt-audit:
-	source .env && cd dbt && dbt run --select models/audit
 
 dbt-test:
 	source .env && cd dbt && dbt test $(if $(SELECT),--select $(SELECT))

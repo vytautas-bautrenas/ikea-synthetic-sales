@@ -7,11 +7,14 @@ smooth UK national and coastal boundaries, sourced from BigQuery table
 
 import json
 import os
+import threading
 import urllib.request
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from fastapi import FastAPI, Query, Request
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from google.cloud import bigquery
@@ -37,7 +40,16 @@ _CACHE_GRID: Optional[List[Dict[str, Any]]] = None
 _CACHE_UK_BOUNDARIES: Optional[Dict[str, Any]] = None
 
 
-app = FastAPI(title="IKEA UK Sales Heatmap", version="1.0.0")
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    """Pre-warm BigQuery grid and ONS boundary caches in the background on startup."""
+    threading.Thread(target=get_uk_boundaries, daemon=True).start()
+    threading.Thread(target=load_grid_data, daemon=True).start()
+    yield
+
+
+app = FastAPI(title="IKEA UK Sales Heatmap", version="1.0.0", lifespan=lifespan)
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 
 
@@ -94,7 +106,7 @@ def load_grid_data(force_refresh: bool = False) -> List[Dict[str, Any]]:
         bq_client = bigquery.Client(project=PROJECT, location=LOCATION)
         query_job = bq_client.query(query)
         rows = list(query_job.result())
-        
+
         data = []
         for r in rows:
             data.append({
@@ -178,7 +190,7 @@ def get_grid(country: Optional[str] = Query(None), refresh: bool = False):
 @app.get("/", response_class=HTMLResponse)
 def heatmap_page(request: Request):
     """Render the Interactive 10km Gridded Heatmap Dashboard page.
-    
+
     Refreshes BigQuery data cache whenever the webpage is loaded/refreshed.
     """
     data = load_grid_data(force_refresh=True)

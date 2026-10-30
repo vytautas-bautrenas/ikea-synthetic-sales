@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-validate:
+    name: Lint Python, SQL & Terraform
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install Python dependencies
+        run: uv sync --frozen
+
+      - name: Lint Python (Ruff)
+        run: uv run ruff check python/ airflow/dags/ web_app_heatmap/ web_app_invoicing/
+
+      - name: Compile-check Python modules
+        run: uv run python -m py_compile python/*.py airflow/dags/*.py web_app_heatmap/main.py web_app_invoicing/main.py
+
+      - name: Check Terraform formatting
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+      - name: Run terraform fmt check
+        run: terraform -chdir=terraform fmt -check

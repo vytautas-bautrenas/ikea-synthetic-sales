@@ -21,6 +21,14 @@ dev = [
     "sqlfluff-templater-dbt>=4.3.0",
 ]
 
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
+
 [tool.sqlfluff.core]
 dialect = "bigquery"
 templater = "dbt"

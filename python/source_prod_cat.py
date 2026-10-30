@@ -6,7 +6,7 @@ from pathlib import Path
 from scripts_download import CHUNK, download, get_bytes
 
 DATA_ROOT = Path(__file__).parent / "../data"
-OUT_CSV = DATA_ROOT / "Ikea_Product_Catalog.csv" 
+OUT_CSV = DATA_ROOT / "Ikea_Product_Catalog.csv"
 ARCHIVE = DATA_ROOT / "ikea_product_catalog.zip"
 
 DATASET = "ranjithpanicker/ikea-global-product-catalog-and-price-2026"

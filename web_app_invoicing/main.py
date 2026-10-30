@@ -159,7 +159,7 @@ def lookup_invoice(
                 "now_year": datetime.now().year,
             },
         )
-    
+
     clean_order_id = int("".join(digits_match))
     clean_postcode = re.sub(r"\s+", "", raw_postcode).upper()
 
@@ -186,11 +186,11 @@ def lookup_invoice(
         c.postcode,
         c.country,
 
-        -- Line Item Info
-        ol.line_number,
-        ol.line_quantity,
-        ol.line_price_100,
-        ol.line_total_100,
+        -- Line Item Info (unnested directly from fact_orders.order_lines)
+        ol_offset + 1 AS line_number,
+        1 AS line_quantity,
+        ol.unit_price_100 AS line_price_100,
+        ol.unit_price_100 AS line_total_100,
 
         -- Product Info
         COALESCE(p.product_name, CONCAT('IKEA Item #', CAST(ol.product_id AS STRING))) AS product_name,
@@ -199,8 +199,7 @@ def lookup_invoice(
     FROM `{PROJECT}.{DATASET}.fact_orders` AS o
     JOIN `{PROJECT}.{DATASET}.dim_customers` AS c
       ON o.customer_id = c.customer_id
-    LEFT JOIN `{PROJECT}.{DATASET}.fact_order_lines` AS ol
-      ON o.order_id = ol.order_id
+    LEFT JOIN UNNEST(o.order_lines) AS ol WITH OFFSET AS ol_offset
     LEFT JOIN `{PROJECT}.{DATASET}.dim_products` AS p
       ON ol.product_id = p.product_id
 
@@ -212,7 +211,7 @@ def lookup_invoice(
       )
       AND UPPER(REGEXP_REPLACE(c.postcode, r'\s+', '')) = @postcode
 
-    ORDER BY ol.line_number ASC
+    ORDER BY line_number ASC
     """
 
     job_config = bigquery.QueryJobConfig(
@@ -240,11 +239,11 @@ def lookup_invoice(
             )
 
         first = rows[0]
-        
+
         # Format dates
         order_date_str = format_date_dmy(first.order_datetime)
         delivery_date_str = format_date_dmy(first.delivery_datetime)
-        
+
         # 2-digit year for invoice number
         year_2digit = first.order_datetime.strftime("%y")
 
@@ -269,7 +268,7 @@ def lookup_invoice(
 
         # The Picking and delivery fee is added as another item in the product list table.
         # Art. No. "000.000.00", omit if £0.00
-        
+
         if first.picking_delivery_100 > 0:
             fee_label = "Delivery fee - parcel" if first.delivery_type == "parcel" else "Delivery fee - truck"
             items.append({

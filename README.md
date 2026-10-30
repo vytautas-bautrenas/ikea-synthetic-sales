@@ -1,5 +1,7 @@
 # 1. IKEA Synthetic Sales Data Pipeline
 
+[![CI](https://github.com/vytautas-bautrenas/ikea-synthetic-sales/actions/workflows/ci.yml/badge.svg)](https://github.com/vytautas-bautrenas/ikea-synthetic-sales/actions/workflows/ci.yml)
+
 An end-to-end synthetic data pipeline that generates 22 billion e-commerce order rows in 4m 44s, for £0.61.
 
 <p align="center">
@@ -83,6 +85,9 @@ Core mechanisms enabling sub-5-minute generation of 22 billion rows without data
 6. **Lossless Integer Minor-Units Currency**:
    All monetary amounts are stored as integer minor units (`INT64` pence). Eliminates IEEE 754 floating-point inaccuracies, rounding divergence between rollups, and overhead across all models.
 
+7. **$6\sigma$ Statistical Block-Sampled Auditing (`inputs_vs_outputs_checks`)**:
+   Full-table scans across 22 billion rows for every data quality test would take minutes and double the cloud bill. Instead, `inputs_vs_outputs_checks` samples 10% of physical storage blocks (`TABLESAMPLE SYSTEM (10 PERCENT)`) in a single 3.5-second pass to verify both exact row-level financial invariants (header totals = sum of nested line items) and statistical distribution targets (basket sizes, channel payment shares, and order timelines) within $6\sigma$ Central Limit Theorem standard-error bounds. `dbt test` then asserts zero `FAIL` rows against the materialised audit summary in 1 second, adding **0 seconds** to the critical path.
+
 <br>
 
 # 5. Running Time and Costs
@@ -112,6 +117,7 @@ Below are the results of a cold-start Airflow DAG run (`manual__2026-10-30T20:49
 # 6. Repo Structure
 
 ```
+├── .github/workflows/  # GitHub Actions CI pipeline (Ruff, py_compile, Terraform)
 ├── airflow/            # Airflow DAG, Dockerfile, docker-compose configuration
 ├── data/               # Local seed data storage (git-ignored)
 ├── dbt/                # dbt models (ingest, transform, serve, audit), macros, tests
@@ -214,14 +220,9 @@ Should any issues arise, the suggestion is to point your AI agent at the repo, a
    make ingest-onspd ingest-prod-cat ingest-names ingest-streets ingest-stores
    ```
 
-3. **Run Data Synthesis**:
+3. **Run Data Synthesis, Audits & Integrity Tests**:
    ```bash
-   make dbt-run
-   ```
-
-4. **Run Data Integrity & Audit Tests**:
-   ```bash
-   make dbt-test
+   make dbt-build
    ```
 
 ## 8.3. Cleanup

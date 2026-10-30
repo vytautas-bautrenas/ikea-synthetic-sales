@@ -97,13 +97,13 @@
   <!-- 4.2. transform.* -->
   <rect x="28" y="662" width="1102" height="126" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
   <text x="605" y="694" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#1e293b">transform.* — synthetic data generators (dbt)</text>
-  <text x="605" y="728" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">int_number_expansion (100M-row parallel driver) → int_order_sizes (6B orders · 1M CDF slots) → int_order_products</text>
+  <text x="605" y="728" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">int_number_expansion (150M-row · 2,000-partition driver) → int_order_sizes (6B orders · 1M CDF slots) → int_order_products</text>
   <text x="605" y="756" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">int_customer_forenames · int_customer_surnames · int_customer_street_names (weighted UK name &amp; address CDFs)</text>
 
   <!-- 4.3. serve.* -->
   <rect x="28" y="822" width="1102" height="126" rx="8" fill="#dcfce7" stroke="#15803d" stroke-width="1.3"/>
   <text x="605" y="850" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#1e293b">serve.* — production analytical marts</text>
-  <text x="605" y="878" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#15803d">fact_orders (6,000,000,000 rows · £725B) · fact_order_lines (15,894,809,796 rows · 947 GB)</text>
+  <text x="605" y="878" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#15803d">fact_orders (6,000,000,000 orders · 15.9B nested lines · £725B) · fact_order_lines (unnested view)</text>
   <text x="605" y="904" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">dim_customers (70,000,000 UK profiles) · dim_products (IKEA catalogue) · dim_stores</text>
   <text x="605" y="930" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" fill="#475569">dim_postcodes (UK delivery boundary filter) · agg_sales_grid_10km (1,351 10km grid cells)</text>
 
@@ -117,8 +117,8 @@
   <path d="M 605 630 L 605 660" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
   <path d="M 605 788 L 605 820" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
   <path d="M 605 948 L 605 978" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-  <text x="619" y="809" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">dbt run (make dbt-run)</text>
-  <text x="619" y="968" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">dbt audit &amp; test (make dbt-audit)</text>
+  <text x="619" y="809" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">dbt run (make dbt-build)</text>
+  <text x="619" y="968" text-anchor="start" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">dbt audit &amp; test (make dbt-build)</text>
 
   <!-- ==================== 5. FASTAPI APPS ==================== -->
   <rect x="12" y="1106" width="1132" height="104" rx="12" fill="#fdf4ff" stroke="#a21caf" stroke-width="1.6" />
@@ -186,7 +186,7 @@
   <text x="1407" y="430" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#4f46e5">DAG ikea_sales_pipeline (automated)</text>
   <text x="1407" y="466" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">1 · sourcing — 6 parallel source_*.py</text>
   <text x="1407" y="496" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">2 · ingestion — 5 BigQuery ingest_*.py</text>
-  <text x="1407" y="526" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">3 · dbt run → dbt audit → dbt test</text>
+  <text x="1407" y="526" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">3 · dbt_number_expansion → dbt_build</text>
   <text x="1407" y="556" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">4 · web_apps_readiness (/health probes)</text>
   <text x="1407" y="596" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#15803d">Retries: 3 with exponential backoff</text>
   <text x="1407" y="638" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make airflow-up / airflow-down</text>
@@ -207,7 +207,7 @@
   <text x="1407" y="874" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#64748b">Manual CLI — runs any layer on demand</text>
   <text x="1407" y="914" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make env · terra-apply · terra-destroy</text>
   <text x="1407" y="948" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make source-* (×6) · ingest-* (×5)</text>
-  <text x="1407" y="982" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make dbt-run · dbt-audit · dbt-test</text>
+  <text x="1407" y="982" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make dbt-build · dbt-run · dbt-test</text>
   <text x="1407" y="1016" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make dbt-docs</text>
   <text x="1407" y="1050" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make invoice · make heatmap</text>
   <text x="1407" y="1084" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#334155">make airflow-up · airflow-trigger</text>

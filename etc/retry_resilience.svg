@@ -16,7 +16,7 @@
   <text x="94" y="136" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="20" font-weight="800" fill="#0284c7">1</text>
   <text x="148" y="102" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0f172a">In-Process &amp; Client SDK Retries (Sub-Second to Seconds)</text>
   <text x="148" y="122" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#334155"><tspan font-weight="600" fill="#0369a1">Python Downloaders:</tspan> urllib 3× exponential backoff (1s → 2s) with custom User-Agent and socket timeout safety.</text>
-  <text x="148" y="140" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#334155"><tspan font-weight="600" fill="#0369a1">BigQuery &amp; dbt:</tspan> 8MB resumable upload chunks (600s budget) + dbt profile <tspan font-family="monospace" fill="#0f172a">job_retries: 3</tspan> (300s execution deadline).</text>
+  <text x="148" y="140" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#334155"><tspan font-weight="600" fill="#0369a1">BigQuery &amp; dbt:</tspan> 8MB resumable upload chunks (600s budget) + dbt profile <tspan font-family="monospace" fill="#0f172a">job_retries: 3</tspan> (1800s execution deadline).</text>
 
   <!-- Transition Arrow 1 to 2 -->
   <path d="M 560 164 L 560 178" fill="none" stroke="#94a3b8" stroke-width="1.4" marker-end="url(#arrow)"/>
@@ -39,7 +39,7 @@
   <text x="94" y="328" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#b45309">LAYER</text>
   <text x="94" y="352" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="20" font-weight="800" fill="#b45309">3</text>
   <text x="148" y="318" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0f172a">Airflow Orchestration Retries (Scheduler Level)</text>
-  <text x="148" y="338" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#334155"><tspan font-weight="600" fill="#b45309">Automated Task Retries:</tspan> All 19 DAG tasks inherit uniform <tspan font-family="monospace" fill="#0f172a">retries: 3</tspan> with exponential backoff (30s → 60s → 120s, max 5m).</text>
+  <text x="148" y="338" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#334155"><tspan font-weight="600" fill="#b45309">Automated Task Retries:</tspan> All 17 DAG tasks inherit uniform <tspan font-family="monospace" fill="#0f172a">retries: 3</tspan> with exponential backoff (30s → 60s → 120s, max 5m).</text>
   <text x="148" y="356" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#334155"><tspan font-weight="600" fill="#b45309">Cold-Start Healing:</tspan> Upstream task failures safely isolate without poisoning downstream steps; re-run starts from clean slate.</text>
 
   <!-- Transition Arrow 3 to 4 -->
