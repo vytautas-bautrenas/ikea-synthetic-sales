@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/vytautas-bautrenas/ikea-synthetic-sales/actions/workflows/ci.yml/badge.svg)](https://github.com/vytautas-bautrenas/ikea-synthetic-sales/actions/workflows/ci.yml)
 
-An end-to-end synthetic data pipeline that generates 22 billion e-commerce order rows in 4m 44s, for £0.61.
+An end-to-end synthetic data pipeline that generates 16 billion e-commerce order rows in 4m 44s, for £0.61.
 
 <p align="center">
    <img src="etc/uk-sales-geographic-heatmap.png" width="51%" alt="UK Sales 10km Grid Heatmap" />
@@ -43,7 +43,7 @@ An end-to-end synthetic data pipeline that generates 22 billion e-commerce order
 - Public commercial sales datasets are virtually non-existent at scale.
 - Real retailer data cannot be published due to commercial confidentiality and GDPR; results cannot be reproduced publicly even if a data engineer acquired access to a real company data.
 - LLM generation at scale (10 billion+ rows) is prohibitively slow and may cost tens of thousands of pounds in API tokens.
-- **Solution**: Generate a deterministic, scalable, mathematically rigorous synthetic dataset with 22 billion detail rows, 6 billion orders and 70 million customers, in 4m 44s, for £0.61 in cloud compute, with zero LLM API costs.
+- **Solution**: Generate a deterministic, scalable, mathematically rigorous synthetic dataset with 16 billion detail rows, 6 billion orders and 70 million customers, in 4m 44s, for £0.61 in cloud compute, with zero LLM API costs.
 
 <br>
 
@@ -60,7 +60,7 @@ Pipeline flow:
 6. **Orchestrate**: Airflow orchestrates the DAG with automated task-level retries.
 
 
-Core mechanisms enabling sub-5-minute generation of 22 billion rows without data hallucinations:
+Core mechanisms enabling sub-5-minute generation of 16 billion rows without data hallucinations:
 
 1. **Storage-Driven Slot Parallelism (`int_number_expansion`)**:
    In BigQuery, generating rows in memory with `GENERATE_ARRAY()` runs on a single worker, whereas reading from a table assigns one parallel worker per storage partition. `int_number_expansion` pre-generates 150 million integers (~1.15 GB) split across 2,000 integer-range partitions (`MOD(i, 2000)`). When `fact_orders` reads this table, BigQuery immediately spins up 2,000 parallel workers — saturating the project's 2,000-slot quota — to generate all 6 billion orders and 15.9 billion line items in under 3 minutes.
@@ -86,7 +86,7 @@ Core mechanisms enabling sub-5-minute generation of 22 billion rows without data
    All monetary amounts are stored as integer minor units (`INT64` pence). Eliminates IEEE 754 floating-point inaccuracies, rounding divergence between rollups, and overhead across all models.
 
 7. **$6\sigma$ Statistical Block-Sampled Auditing (`inputs_vs_outputs_checks`)**:
-   Full-table scans across 22 billion rows for every data quality test would take minutes and double the cloud bill. Instead, `inputs_vs_outputs_checks` samples 10% of physical storage blocks (`TABLESAMPLE SYSTEM (10 PERCENT)`) in a single 3.5-second pass to verify both exact row-level financial invariants (header totals = sum of nested line items) and statistical distribution targets (basket sizes, channel payment shares, and order timelines) within $6\sigma$ Central Limit Theorem standard-error bounds. `dbt test` then asserts zero `FAIL` rows against the materialised audit summary in 1 second, adding **0 seconds** to the critical path.
+   Full-table scans across 16 billion rows for every data quality test would take minutes and double the cloud bill. Instead, `inputs_vs_outputs_checks` samples 10% of physical storage blocks (`TABLESAMPLE SYSTEM (10 PERCENT)`) in a single 3.5-second pass to verify both exact row-level financial invariants (header totals = sum of nested line items) and statistical distribution targets (basket sizes, channel payment shares, and order timelines) within $6\sigma$ Central Limit Theorem standard-error bounds. `dbt test` then asserts zero `FAIL` rows against the materialised audit summary in 1 second, adding **0 seconds** to the critical path.
 
 <br>
 
@@ -105,7 +105,7 @@ Below are the results of a cold-start Airflow DAG run (`manual__2026-10-30T20:49
 
 **Key Takeaways**
 
-1. **Generating 22 Billion Rows Costs £0.01 (£0.44 Total Serve Layer)**:
+1. **Generating 16 Billion Rows Costs £0.01 (£0.44 Total Serve Layer)**:
    Materialising 6 billion clustered orders (with 15.9 billion nested line items) and 70 million customers scans just **2.75 GB (£0.013)** by generating rows in memory from the 1.15 GB partitioned driver table. Nearly all of the Serve layer bill (**90.6 GB / £0.43**) comes from aggregating those 6 billion orders into the downstream 10km geographic heatmap mart.
 
 2. **10% Block Sampling & Single-Pass Audit Costs £0.17**:
