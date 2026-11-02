@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/vytautas-bautrenas/ikea-synthetic-sales/actions/workflows/ci.yml/badge.svg)](https://github.com/vytautas-bautrenas/ikea-synthetic-sales/actions/workflows/ci.yml)
 
-An end-to-end synthetic data pipeline that generates 16 billion e-commerce order rows in 4m 44s, for £0.61.
+An end-to-end synthetic data pipeline that generates 16 billion e-commerce order detail rows in 4m 44s, for £0.61.
 
 <p align="center">
    <img src="etc/uk-sales-geographic-heatmap.png" width="51%" alt="UK Sales 10km Grid Heatmap" />
